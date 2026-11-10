@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SICOP-VE — Suite de Pruebas Automáticas</title>
+    <link rel="icon" type="image/png" href="img/logo-negro.png">
+
+    <!-- Tipografía de Sistema de Alto Rendimiento (100% Offline / Cero Peticiones Externas) -->
+
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        .resumen-pruebas {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .tarjeta-stat {
+            background-color: var(--color-superficie);
+            border: 1px solid var(--color-borde);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radio-lg);
+            box-shadow: var(--sombra-tarjeta);
+            flex: 1;
+            min-width: 180px;
+        }
+        .tarjeta-stat__etiqueta {
+            font-size: 0.8rem;
+            color: var(--color-texto-secundario);
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+        .tarjeta-stat__valor {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .tarjeta-stat--exito .tarjeta-stat__valor { color: var(--color-exito); }
+        .tarjeta-stat--peligro .tarjeta-stat__valor { color: var(--color-peligro); }
+        .tarjeta-stat--info .tarjeta-stat__valor { color: var(--color-acento); }
+        .badge-resultado {
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+        .badge-exito {
+            background-color: var(--color-exito-suave);
+            color: #166534;
+        }
+        .badge-peligro {
+            background-color: var(--color-peligro-suave);
+            color: #991b1b;
+        }
+        .fila-prueba-aprobada {
+            border-left: 4px solid var(--color-exito);
+        }
+        .fila-prueba-fallida {
+            border-left: 4px solid var(--color-peligro);
+            background-color: var(--color-peligro-suave);
+        }
+        code {
+            background-color: var(--color-fondo);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA SUPERIOR -->
+    <header class="topbar">
+        <div class="topbar__izquierda">
+            <img src="img/logo-negro.png" alt="Logo SICOP" style="height:28px; width:auto;">
+            <div>
+                <h1 class="topbar__titulo" style="font-size:1.05rem; margin:0;">SICOP-VE Test Suite</h1>
+                <span style="font-size:0.75rem; color:var(--color-texto-secundario);">Pruebas Automáticas de Lógica y Programación I</span>
+            </div>
+        </div>
+        <div class="topbar__derecha">
+            <a href="index.html" class="boton boton--secundario boton--sm" style="text-decoration:none; display:inline-flex; align-items:center; gap:0.4rem;">
+                <span data-icono="flechaIzquierda" data-tamano="14"></span>
+                <span>Volver al Sistema</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="contenido-principal">
+        <div class="tarjeta">
+            <h2 class="tarjeta__titulo">Verificación Automatizada de Reglas de Negocio (75 Casos)</h2>
+            <p class="tarjeta__descripcion">
+                Esta página ejecuta automáticamente una batería de <strong>75 pruebas automáticas unitarias y de integración</strong>
+                al cargarse. Valida el cálculo de IVA y contingencia, el algoritmo de burbuja manual, la calculadora de obra,
+                el sistema de financiamiento por cuotas Cashea, la persistencia, la seguridad y el aislamiento de datos,
+                el centro de control financiero, la conciliación de pagos, las proyecciones en 3 escenarios,
+                el control presupuestario, la red de almacenes, el gestor documental y la trazabilidad de auditoría.
+            </p>
+
+            <div class="resumen-pruebas">
+                <div class="tarjeta-stat tarjeta-stat--info">
+                    <div class="tarjeta-stat__etiqueta">Total de Casos</div>
+                    <div class="tarjeta-stat__valor" id="badgeTotalPruebas">0</div>
+                </div>
+                <div class="tarjeta-stat tarjeta-stat--exito">
+                    <div class="tarjeta-stat__etiqueta">Pruebas Aprobadas</div>
+                    <div class="tarjeta-stat__valor" id="badgeAprobadas">0</div>
+                </div>
+                <div class="tarjeta-stat tarjeta-stat--peligro">
+                    <div class="tarjeta-stat__etiqueta">Pruebas Fallidas</div>
+                    <div class="tarjeta-stat__valor" id="badgeFallidas">0</div>
+                </div>
+            </div>
+
+            <div class="tabla-responsive">
+                <table class="tabla">
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Caso de Prueba / Regla</th>
+                            <th>Resultado Esperado</th>
+                            <th>Resultado Obtenido</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoResultadosPruebas">
+                        <!-- Generado dinámicamente por js/pruebas.js -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 1.5rem; text-align: right;">
+                <button class="boton boton--primario" onclick="renderizarResultadosPruebas()" style="display:inline-flex; align-items:center; gap:0.4rem;">
+                    <span data-icono="actualizar" data-tamano="14"></span>
+                    <span>Re-ejecutar Pruebas</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="pie" style="text-align:center; padding:1.5rem 1rem; color:var(--color-texto-terciario); font-size:0.75rem;">
+        <p>SICOP-VE © <span id="anioFooterPruebas">2026</span> — Universidad Nacional de Córdoba (UNC) — Lógica y Programación I</p>
+    </footer>
+
+    <!-- Scripts en orden de dependencia sin módulos ES -->
+    <script src="js/iconos.js"></script>
+    <script src="js/datos.js"></script>
+    <script src="js/logica.js"></script>
+    <script src="js/adaptador-api.js"></script>
+    <script src="js/pruebas.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var anio = document.getElementById('anioFooterPruebas');
+            if (anio) anio.textContent = new Date().getFullYear();
+            if (typeof hidratarIconos === 'function') hidratarIconos();
+        });
+    </script>
+</body>
+</html>
+

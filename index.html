@@ -1,0 +1,2506 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SICOP-VE — Sistema de Cotización y Control de Presupuesto para Obras en Venezuela</title>
+    <link rel="icon" type="image/png" href="img/logo-negro.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#141412">
+
+    <!-- Tipografía de Sistema de Alto Rendimiento (100% Offline / Cero Peticiones Externas) -->
+
+    <link rel="stylesheet" href="estilos.css?v=7.4">
+</head>
+
+<body>
+
+    <!-- ENLACE ACCESIBLE DIRECTO AL CONTENIDO PRINCIPAL (WCAG 2.1 AA) -->
+    <a href="#contenidoPrincipal" class="sv-skip-link">Saltar al contenido principal</a>
+
+    <!-- PRELOADER EDITORIAL (UNA SOLA VEZ POR SESIÓN) -->
+    <div id="svPreloader" class="sv-preloader" aria-hidden="true">
+        <div class="sv-preloader__pie">
+            <span>SICOP-VE</span>
+            <span>Sistema de Cotización y Control de Presupuesto para Obras en Venezuela</span>
+        </div>
+        <div class="sv-preloader__centro">
+            <div class="sv-preloader__contador" id="svPreloaderContador">00</div>
+            <div class="sv-preloader__barra-fondo">
+                <div class="sv-preloader__barra-progreso" id="svPreloaderBarra"></div>
+            </div>
+        </div>
+        <div class="sv-preloader__pie">
+            <span>República Bolivariana de Venezuela</span>
+            <span>Cargando plataforma...</span>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PANTALLA DE INICIO DE SESIÓN (LOGIN SAAS DIVIDIDO)          -->
+    <!-- ============================================================ -->
+    <div id="pantallaLogin" class="pantalla-login">
+        <!-- Panel Izquierdo: Marca y Propuesta de Valor -->
+        <div class="login-panel-marca">
+            <div class="logo-bloque sv-flex sv-items-center sv-gap-md">
+                <img src="img/logo-blanco.png" alt="Logo SICOP-VE" class="logo-sistema-img sv-logo-header">
+                <div class="logo-texto">
+                    <span class="logo-texto__titulo sv-text-white">SICOP-VE</span>
+                    <span class="logo-texto__subtitulo sv-text-dim">Sistema de Cotización y Control de Presupuesto para
+                        Obras en Venezuela</span>
+                </div>
+            </div>
+
+            <div class="login-beneficios">
+                <h2 class="sv-titulo-display sv-text-white sv-mb-lg">
+                    Cotización y gestión presupuestaria con <em class="sv-acento">transparencia técnica</em>.
+                </h2>
+
+                <div class="login-beneficio-item">
+                    <span class="login-beneficio-item__icono" data-icono="ciudades" data-tamano="20"></span>
+                    <div>
+                        <div class="login-beneficio-item__titulo">Factores Geográficos de Compra y Flete</div>
+                        <div class="login-beneficio-item__desc">Optimización automática hacia la ciudad proveedora más
+                            barata y cálculo logístico por estado.</div>
+                    </div>
+                </div>
+
+                <div class="login-beneficio-item">
+                    <span class="login-beneficio-item__icono" data-icono="aprobaciones" data-tamano="20"></span>
+                    <div>
+                        <div class="login-beneficio-item__titulo">Control de Fondos y Sobregiro Cero</div>
+                        <div class="login-beneficio-item__desc">Auditoría preventiva que bloquea compromisos cuando
+                            superan el saldo asignado.</div>
+                    </div>
+                </div>
+
+                <div class="login-beneficio-item">
+                    <span class="login-beneficio-item__icono" data-icono="cotizador" data-tamano="20"></span>
+                    <div>
+                        <div class="login-beneficio-item__titulo">Doble Denominación USD / Bolívares BCV</div>
+                        <div class="login-beneficio-item__desc">Desglose fiscal con IVA del 16%, fondo de contingencia y
+                            equivalencia cambiaria en vivo.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sv-font-sm sv-text-dim">
+                SICOP-VE — República Bolivariana de Venezuela
+            </div>
+        </div>
+
+        <!-- Panel Derecho: Formulario de Acceso -->
+        <div class="login-panel-formulario">
+            <div class="login-caja">
+                <h1 class="sv-titulo-seccion sv-mb-xs">Iniciar Sesión</h1>
+                <p class="sv-font-sm sv-text-muted sv-mb-lg">Ingrese sus credenciales de acceso institucional.</p>
+
+                <form id="formLogin" class="form-login">
+                    <div class="campo">
+                        <label for="selectorUsuarioRapido">Selección rápida de demostración:</label>
+                        <select id="selectorUsuarioRapido" class="control-formulario">
+                            <!-- Llenado dinámicamente -->
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="inputUsuarioLogin">Usuario:</label>
+                        <input type="text" id="inputUsuarioLogin" class="control-formulario" required
+                            placeholder="Nombre de usuario">
+                    </div>
+
+                    <div class="campo">
+                        <label for="inputClaveLogin">Contraseña:</label>
+                        <input type="password" id="inputClaveLogin" class="control-formulario" required
+                            placeholder="Contraseña">
+                    </div>
+
+                    <button type="submit" class="boton boton--primario sv-w-full sv-mt-sm">
+                        <span>Ingresar a la Plataforma</span>
+                        <span data-icono="chevronDerecha" data-tamano="16"></span>
+                    </button>
+                </form>
+
+                <div class="aviso aviso--info sv-mt-lg sv-font-sm">
+                    <strong>Usuarios para Demostración (clic para autocompletar):</strong>
+                    <div class="sv-flex sv-flex-col sv-gap-xs sv-mt-sm">
+                        <div onclick="seleccionarUsuarioDemo('gobernacion_miranda')" class="sv-card-demo-user">
+                            <span>• <strong>Ing. Ana Pérez</strong> (Gobernación / Aprobador 1)</span>
+                            <code>admin123</code>
+                        </div>
+                        <div onclick="seleccionarUsuarioDemo('gobernacion_zulia')" class="sv-card-demo-user">
+                            <span>• <strong>Ing. Marcos Rivas</strong> (Gobernación / Aprobador 2)</span>
+                            <code>admin123</code>
+                        </div>
+                        <div onclick="seleccionarUsuarioDemo('gobernacion_carabobo')" class="sv-card-demo-user">
+                            <span>• <strong>Ing. Elena Blanco</strong> (Gobernación / Aprobador 3)</span>
+                            <code>admin123</code>
+                        </div>
+                        <div onclick="seleccionarUsuarioDemo('gobernacion_anzoategui')" class="sv-card-demo-user">
+                            <span>• <strong>Ing. Rafael Sosa</strong> (Gobernación / Aprobador 4)</span>
+                            <code>admin123</code>
+                        </div>
+                        <div onclick="seleccionarUsuarioDemo('alcaldia_libertador')" class="sv-card-demo-user">
+                            <span>• <strong>María González</strong> (Alcaldía Libertador)</span>
+                            <code>1234</code>
+                        </div>
+                        <div onclick="seleccionarUsuarioDemo('constructora_valencia')" class="sv-card-demo-user">
+                            <span>• <strong>Carlos Rodríguez</strong> (Empresa Carabobo)</span>
+                            <code>1234</code>
+                        </div>
+                        <div onclick="seleccionarUsuarioDemo('maestro_martinez')" class="sv-card-demo-user">
+                            <span>• <strong>José Martínez</strong> (Constructor Zulia)</span>
+                            <code>1234</code>
+                        </div>
+                        <div onclick="seleccionarUsuarioDemo('vialidad_merida')" class="sv-card-demo-user">
+                            <span>• <strong>Luis Hernández</strong> (Empresa Mérida - Alerta)</span>
+                            <code>1234</code>
+                        </div>
+                        <div onclick="seleccionarUsuarioDemo('alcaldia_iribarren')" class="sv-card-demo-user">
+                            <span>• <strong>Pedro Castillo</strong> (Alcaldía Iribarren)</span>
+                            <code>1234</code>
+                        </div>
+                        <div onclick="seleccionarUsuarioDemo('comuna_panamericana')" class="sv-card-demo-user">
+                            <span>• <strong>Elena Blanco</strong> (Comuna Panamericana)</span>
+                            <code>1234</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- APLICACIÓN PRINCIPAL (POST-LOGIN - LAYOUT SAAS)              -->
+    <!-- ============================================================ -->
+    <div id="aplicacionPrincipal" class="aplicacion-contenedor oculto">
+        <div class="app-layout">
+
+            <!-- 1. BARRA LATERAL (SIDEBAR FIJO) -->
+            <aside class="sidebar no-imprimir" id="sidebarApp">
+                <div class="sidebar__marca">
+                    <a href="#" class="logo-bloque sv-flex sv-items-center sv-gap-md"
+                        onclick="cambiarPestana('dashboard'); return false;">
+                        <img src="img/logo-negro.png" alt="Logo SICOP-VE" class="logo-sistema-img sv-logo-sidebar"
+                            id="logoSidebar">
+                        <div class="logo-texto">
+                            <span class="logo-texto__titulo">SICOP-VE</span>
+                            <span class="logo-texto__subtitulo">Control de Presupuesto</span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="sidebar__menu" id="navModulos">
+                    <!-- Grupo: Operación -->
+                    <div class="sidebar-grupo">
+                        <div class="sidebar-grupo__titulo">Operación</div>
+                        <div class="sidebar-grupo__items">
+                            <button class="nav-item nav-btn activa" data-modulo="dashboard">
+                                <span class="nav-item__icono" data-icono="dashboard" data-tamano="18"></span>
+                                <span class="nav-item__texto">Dashboard</span>
+                            </button>
+                            <button class="nav-item nav-btn" data-modulo="cotizador">
+                                <span class="nav-item__icono" data-icono="cotizador" data-tamano="18"></span>
+                                <span class="nav-item__texto">Cotizador</span>
+                            </button>
+                            <button class="nav-item nav-btn" data-modulo="calculadora">
+                                <span class="nav-item__icono" data-icono="calculadora" data-tamano="18"></span>
+                                <span class="nav-item__texto">Calculadora de Obra</span>
+                            </button>
+                            <button class="nav-item nav-btn" data-modulo="ciudades">
+                                <span class="nav-item__icono" data-icono="ciudades" data-tamano="18"></span>
+                                <span class="nav-item__texto">Dónde Comprar</span>
+                            </button>
+                            <button class="nav-item nav-btn" data-modulo="historial">
+                                <span class="nav-item__icono" data-icono="historial" data-tamano="18"></span>
+                                <span class="nav-item__texto">Historial</span>
+                            </button>
+                            <button class="nav-item nav-btn" data-modulo="financiamiento">
+                                <span class="nav-item__icono" data-icono="dinero" data-tamano="18"></span>
+                                <span class="nav-item__texto">Mis Cuotas</span>
+                            </button>
+                            <button class="nav-item nav-btn" data-modulo="proyectos">
+                                <span class="nav-item__icono" data-icono="edificio" data-tamano="18"></span>
+                                <span class="nav-item__texto">Proyectos y Obras</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Grupo: Finanzas y Cartera (Solo Gobernación) -->
+                    <div class="sidebar-grupo solo-gobernacion oculto">
+                        <div class="sidebar-grupo__titulo">Finanzas y Cartera</div>
+                        <div class="sidebar-grupo__items">
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="control-financiero">
+                                <span class="nav-item__icono" data-icono="dinero" data-tamano="18"></span>
+                                <span class="nav-item__texto">Control Financiero</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="conciliacion-pagos">
+                                <span class="nav-item__icono" data-icono="check" data-tamano="18"></span>
+                                <span class="nav-item__texto">Conciliación de Pagos</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="proyecciones">
+                                <span class="nav-item__icono" data-icono="kpiCotizaciones" data-tamano="18"></span>
+                                <span class="nav-item__texto">Proyecciones</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="presupuestos">
+                                <span class="nav-item__icono" data-icono="kpiAprobado" data-tamano="18"></span>
+                                <span class="nav-item__texto">Presupuestos</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="cartera">
+                                <span class="nav-item__icono" data-icono="supervision" data-tamano="18"></span>
+                                <span class="nav-item__texto">Cartera Global</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="supervision">
+                                <span class="nav-item__icono" data-icono="ojo" data-tamano="18"></span>
+                                <span class="nav-item__texto">Supervisión Global</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Grupo: Gestión Institucional (Solo Gobernación) -->
+                    <div class="sidebar-grupo solo-gobernacion oculto">
+                        <div class="sidebar-grupo__titulo">Gestión y Recursos</div>
+                        <div class="sidebar-grupo__items">
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="instituciones">
+                                <span class="nav-item__icono" data-icono="ciudades" data-tamano="18"></span>
+                                <span class="nav-item__texto">Instituciones</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="estado-usuarios">
+                                <span class="nav-item__icono" data-icono="usuario" data-tamano="18"></span>
+                                <span class="nav-item__texto">Estado de Usuarios</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="aprobaciones">
+                                <span class="nav-item__icono" data-icono="aprobaciones" data-tamano="18"></span>
+                                <span class="nav-item__texto">Aprobaciones</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="catalogo">
+                                <span class="nav-item__icono" data-icono="catalogo" data-tamano="18"></span>
+                                <span class="nav-item__texto">Catálogo Maestro</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="inventario">
+                                <span class="nav-item__icono" data-icono="muro" data-tamano="18"></span>
+                                <span class="nav-item__texto">Inventario y Almacenes</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="proveedores">
+                                <span class="nav-item__icono" data-icono="camion" data-tamano="18"></span>
+                                <span class="nav-item__texto">Proveedores y Precios</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="documentos">
+                                <span class="nav-item__icono" data-icono="documento" data-tamano="18"></span>
+                                <span class="nav-item__texto">Gestor Documental</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="inteligencia">
+                                <span class="nav-item__icono" data-icono="campana" data-tamano="18"></span>
+                                <span class="nav-item__texto">Inteligencia de Gestión</span>
+                            </button>
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="bitacora">
+                                <span class="nav-item__icono" data-icono="bitacora" data-tamano="18"></span>
+                                <span class="nav-item__texto">Bitácora y Alertas</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Grupo: Sistema -->
+                    <div class="sidebar-grupo">
+                        <div class="sidebar-grupo__titulo">Sistema</div>
+                        <div class="sidebar-grupo__items">
+                            <button class="nav-item nav-btn solo-gobernacion" data-modulo="monitor-sistema">
+                                <span class="nav-item__icono" data-icono="dashboard" data-tamano="18"></span>
+                                <span class="nav-item__texto">Monitor de Salud</span>
+                            </button>
+                            <button class="nav-item nav-btn" data-modulo="respaldo">
+                                <span class="nav-item__icono" data-icono="respaldo" data-tamano="18"></span>
+                                <span class="nav-item__texto">Exportar / Importar</span>
+                            </button>
+                            <a href="pruebas.html" class="nav-item nav-item--discreto" target="_blank">
+                                <span class="nav-item__icono" data-icono="pruebas" data-tamano="18"></span>
+                                <span class="nav-item__texto">Pruebas Automáticas ↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar__footer">
+                    <span>Versión 2.5 SaaS</span>
+                    <span id="indicadorStatusOnline" class="sv-text-success sv-font-bold">● Conectado</span>
+                </div>
+            </aside>
+
+            <!-- Overlay para cerrar sidebar en móviles al hacer clic fuera -->
+            <div class="sidebar-overlay no-imprimir" id="sidebarOverlay"></div>
+
+            <!-- 2. CONTENEDOR DERECHO PRINCIPAL -->
+            <div class="main-wrapper">
+
+                <!-- BARRA SUPERIOR DELGADA (TOPBAR) -->
+                <header class="topbar no-imprimir">
+                    <div class="topbar__izquierda">
+                        <button type="button" class="btn-menu-movil" id="btnMenuMovil"
+                            aria-label="Abrir menú de navegación">
+                            <span data-icono="menu" data-tamano="20"></span>
+                        </button>
+                        <h1 class="topbar__titulo" id="topbarTituloModulo">Dashboard</h1>
+                    </div>
+
+                    <div class="topbar__derecha">
+                        <!-- Reloj Oficial Caracas -->
+                        <div class="sv-reloj-caracas no-imprimir" title="Hora oficial de Caracas, Venezuela (UTC-4)">
+                            <span class="sv-reloj-dot"></span>
+                            <span id="svRelojCaracas">--:--:-- VET</span>
+                        </div>
+
+                        <!-- Selector de Moneda -->
+                        <div class="selector-moneda-wrap">
+                            <select id="selectorMonedaGlobal" class="control-moneda"
+                                aria-label="Seleccionar moneda de visualización">
+                                <option value="USD">USD ($)</option>
+                                <option value="Bs">Bs. (BCV)</option>
+                            </select>
+                        </div>
+
+                        <!-- Botón Alternar Modo Claro / Oscuro -->
+                        <button type="button" class="btn-tema" id="btnAlternarTema"
+                            aria-label="Cambiar tema claro u oscuro" title="Alternar tema">
+                            <span id="iconoTemaActual" data-icono="luna" data-tamano="17"></span>
+                        </button>
+
+                        <!-- Bandeja de Notificaciones Internas -->
+                        <div class="notificaciones-topbar-wrap sv-pos-relative">
+                            <button type="button" class="btn-tema" id="btnCampanaNotificaciones"
+                                aria-label="Bandeja de notificaciones internas" title="Ver notificaciones"
+                                aria-haspopup="true" aria-expanded="false">
+                                <span data-icono="campana" data-tamano="17"></span>
+                                <span id="badgeNotifContador" class="badge-notif-contador oculto">0</span>
+                            </button>
+                            <div id="panelDropdownNotificaciones" class="dropdown-notificaciones oculto" role="dialog"
+                                aria-label="Notificaciones del sistema">
+                                <div class="dropdown-notificaciones__cabecera">
+                                    <span class="dropdown-notificaciones__titulo">Notificaciones</span>
+                                    <button type="button" id="btnMarcarNotifsLeidas"
+                                        class="boton-enlace sv-font-sm sv-btn-link">Marcar leídas</button>
+                                </div>
+                                <div id="listaNotificacionesUsuario" class="dropdown-notificaciones__lista">
+                                    <!-- Renderizado dinámico -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chip de Semáforo Presupuestario -->
+                        <div id="usuarioSemaforoHeader" class="badge-semaforo badge-semaforo--verde">● Normal</div>
+
+                        <!-- Cápsula de Usuario Conectado -->
+                        <div class="usuario-perfil-capsula">
+                            <div class="avatar-iniciales" id="avatarInicialesHeader">MG</div>
+                            <div class="usuario-info-texto">
+                                <span class="usuario-info-nombre" id="usuarioNombreHeader">María González</span>
+                                <span class="usuario-info-rol" id="usuarioRolHeader">Alcaldía</span>
+                            </div>
+                            <button id="btnCerrarSesion" class="boton boton--peligro boton--sm sv-p-xs sv-pill"
+                                title="Cerrar sesión">
+                                <span data-icono="logout" data-tamano="14"></span>
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- CONTENIDO PRINCIPAL -->
+                <main class="contenido-principal" id="contenidoPrincipal">
+
+                    <!-- ============================================================ -->
+                    <!-- 1. MÓDULO: DASHBOARD                                         -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo activa" id="modulo-dashboard">
+                        <div class="grid-kpi">
+                            <div class="tarjeta-kpi">
+                                <div class="tarjeta-kpi__icono"><span data-icono="documento" data-tamano="20"></span>
+                                </div>
+                                <div class="tarjeta-kpi__info">
+                                    <span class="tarjeta-kpi__titulo">Cotizaciones Activas</span>
+                                    <span class="tarjeta-kpi__valor" id="kpiCotizacionesMes">0</span>
+                                    <span class="tarjeta-kpi__subtitulo">En gestión este ciclo</span>
+                                </div>
+                            </div>
+                            <div class="tarjeta-kpi">
+                                <div class="tarjeta-kpi__icono"><span data-icono="dinero" data-tamano="20"></span></div>
+                                <div class="tarjeta-kpi__info">
+                                    <span class="tarjeta-kpi__titulo">Monto Aprobado</span>
+                                    <span class="tarjeta-kpi__valor" id="kpiMontoAprobado">$0.00</span>
+                                    <span class="tarjeta-kpi__subtitulo">Total órdenes autorizadas</span>
+                                </div>
+                            </div>
+                            <div class="tarjeta-kpi">
+                                <div class="tarjeta-kpi__icono"><span data-icono="camion" data-tamano="20"></span></div>
+                                <div class="tarjeta-kpi__info">
+                                    <span class="tarjeta-kpi__titulo">Monto Entregado</span>
+                                    <span class="tarjeta-kpi__valor" id="kpiMontoEntregado">$0.00</span>
+                                    <span class="tarjeta-kpi__subtitulo">100% despachado en obra</span>
+                                </div>
+                            </div>
+                            <div class="tarjeta-kpi">
+                                <div class="tarjeta-kpi__icono"><span data-icono="alerta" data-tamano="20"></span></div>
+                                <div class="tarjeta-kpi__info">
+                                    <span class="tarjeta-kpi__titulo" id="kpiTituloAlerta">Monitoreo
+                                        Presupuestario</span>
+                                    <span class="tarjeta-kpi__valor" id="kpiUsuariosAlerta">0</span>
+                                    <span class="tarjeta-kpi__subtitulo" id="kpiUsuariosAlertaDetalle">Control de
+                                        riesgo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid-dos-columnas">
+                            <!-- Gráfico de barras por sector -->
+                            <div class="tarjeta">
+                                <h2 class="tarjeta__titulo"><span class="sv-num-seccion">01</span> Inversión Aprobada
+                                    por Sector</h2>
+                                <p class="tarjeta__descripcion">Consolidación de inversión por áreas estratégicas de
+                                    infraestructura:</p>
+                                <div id="graficoSectoresDashboard">
+                                    <!-- Renderizado dinámicamente -->
+                                </div>
+                            </div>
+
+                            <!-- Semáforos de Ejecución Presupuestaria -->
+                            <div class="tarjeta">
+                                <h2 class="tarjeta__titulo"><span class="sv-num-seccion">02</span> Semáforo de Ejecución
+                                    Presupuestaria</h2>
+                                <p class="tarjeta__descripcion">Control de fondos según límite, saldo comprometido y
+                                    gastado definitivo:</p>
+                                <div id="semaforosPresupuestoDashboard">
+                                    <!-- Renderizado dinámicamente -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tarjeta sv-mt-md" id="tarjetaAnalisisABC">
+                            <div class="sv-flex-between sv-gap-sm sv-mb-sm">
+                                <div>
+                                    <h2 class="tarjeta__titulo sv-mb-0"><span class="sv-num-seccion">03</span> Análisis
+                                        ABC de Pareto (Materiales Críticos)</h2>
+                                    <p class="tarjeta__descripcion sv-mb-0">Clasificación de materiales según impacto
+                                        financiero acumulado (Ley de Pareto 80/15/5):</p>
+                                </div>
+                                <span class="badge badge-resultado badge-exito">Algoritmo Burbuja Activo</span>
+                            </div>
+                            <div id="contenedorAnalisisABC">
+                                <!-- Renderizado por js/analisis-abc.js -->
+                            </div>
+                        </div>
+
+                        <div class="tarjeta sv-mt-md">
+                            <h2 class="tarjeta__titulo"><span class="sv-num-seccion">04</span> Actividad Reciente del
+                                Sistema</h2>
+                            <p class="tarjeta__descripcion">Últimos movimientos registrados en la bitácora
+                                institucional:</p>
+                            <div id="feedActividadUsuario" class="sv-feed-actividad">
+                                <!-- Renderizado dinámicamente -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- 2. MÓDULO: CALCULADORA DE MATERIALES                        -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo" id="modulo-calculadora">
+                        <div class="tarjeta">
+                            <h2 class="tarjeta__titulo">Calculadora de Materiales por Unidad de Obra</h2>
+                            <p class="tarjeta__descripcion">
+                                Ingrese las dimensiones de su obra para obtener una estimación teórica con margen de
+                                desperdicio.
+                            </p>
+
+                            <div class="aviso aviso--advertencia">
+                                ⚠️ <strong>AVISO TÉCNICO:</strong> Estos valores son de referencia matemática y deben
+                                ser validados
+                                por un ingeniero civil o proyectista responsable antes de la ejecución formal.
+                            </div>
+
+                            <div class="formulario-calculadora">
+                                <div class="fila-campos">
+                                    <div class="campo">
+                                        <label for="calcTipoObra">Tipo de Elemento:</label>
+                                        <select id="calcTipoObra" class="control-formulario">
+                                            <option value="pared">Pared de Bloques (m²)</option>
+                                            <option value="losa">Losa de Concreto Armado (m³)</option>
+                                            <option value="tuberia">Instalación de Tubería (metros)</option>
+                                            <option value="contrapiso">Contrapiso / Piso de Concreto (m²)</option>
+                                            <option value="columna">Columna de Concreto Armado (unidad)</option>
+                                            <option value="viga">Viga de Concreto Armado (metros lineales)</option>
+                                            <option value="ceramica">Cerámica / Porcelanato (m²)</option>
+                                            <option value="pintura">Pintura de Paredes (m²)</option>
+                                            <option value="cerca">Cerca Perimetral de Bloques (metros lineales)</option>
+                                            <option value="muro_contencion">Muro de Contención (metros lineales)
+                                            </option>
+                                            <option value="tanque">Tanque / Cisterna de Agua (litros)</option>
+                                            <option value="electrico">Sistema Eléctrico de Vivienda (m² de construcción)
+                                            </option>
+                                            <option value="impermeabilizacion">Impermeabilización de Techo (m²)</option>
+                                            <option value="pozo_septico">Pozo Séptico (personas servidas)</option>
+                                        </select>
+                                    </div>
+                                    <div class="campo">
+                                        <label for="calcDesperdicio">Margen de Desperdicio (%):</label>
+                                        <input type="number" id="calcDesperdicio" class="control-formulario" value="10"
+                                            min="0" max="30">
+                                    </div>
+                                </div>
+
+                                <!-- Campos para Pared -->
+                                <div id="camposCalcPared" class="grupo-campos-obra">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcParedLargo">Longitud de la pared (metros):</label>
+                                            <input type="number" id="calcParedLargo" class="control-formulario"
+                                                value="6" min="0.1" step="0.1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcParedAlto">Altura de la pared (metros):</label>
+                                            <input type="number" id="calcParedAlto" class="control-formulario"
+                                                value="2.6" min="0.1" step="0.1">
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Fórmulas: Área = Largo × Alto | Bloques = m² × 12.5
+                                        | Cemento = m² × 0.20 sacos</small>
+                                </div>
+
+                                <!-- Campos para Losa -->
+                                <div id="camposCalcLosa" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcLosaLargo">Largo de losa (m):</label>
+                                            <input type="number" id="calcLosaLargo" class="control-formulario" value="5"
+                                                min="0.1" step="0.1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcLosaAncho">Ancho de losa (m):</label>
+                                            <input type="number" id="calcLosaAncho" class="control-formulario" value="4"
+                                                min="0.1" step="0.1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcLosaEspesor">Espesor (m):</label>
+                                            <input type="number" id="calcLosaEspesor" class="control-formulario"
+                                                value="0.15" min="0.05" step="0.01">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcLosaCabillasM2">Cabillas por m²:</label>
+                                            <input type="number" id="calcLosaCabillasM2" class="control-formulario"
+                                                value="1.2" min="0.1" step="0.1">
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Fórmulas: Volumen = Largo × Ancho × Espesor |
+                                        Cemento = m³ × 7 sacos | Cabillas = m² × factor</small>
+                                </div>
+
+                                <!-- Campos para Tubería -->
+                                <div id="camposCalcTuberia" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcTuberiaMetros">Longitud total del tramo (metros):</label>
+                                            <input type="number" id="calcTuberiaMetros" class="control-formulario"
+                                                value="24" min="1" step="1">
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Fórmula: Tubos de 6m = Metros / 6.0 (Redondeo hacia
+                                        arriba con Math.ceil)</small>
+                                </div>
+
+                                <!-- Campos para Contrapiso -->
+                                <div id="camposCalcContrapiso" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcContrapisoArea">Área a cubrir (m²):</label>
+                                            <input type="number" id="calcContrapisoArea" class="control-formulario"
+                                                value="20" min="1" step="0.1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcContrapisoEspesor">Espesor (m):</label>
+                                            <input type="number" id="calcContrapisoEspesor" class="control-formulario"
+                                                value="0.10" min="0.05" step="0.01">
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Fórmulas: Volumen = Área × Espesor | Cemento = m³ ×
+                                        7 | Arena = m³ × 0.5 | Piedra = m³ × 0.9</small>
+                                </div>
+
+                                <!-- Campos para Columna -->
+                                <div id="camposCalcColumna" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcColumnaCantidad">Cantidad de columnas:</label>
+                                            <input type="number" id="calcColumnaCantidad" class="control-formulario"
+                                                value="4" min="1" step="1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcColumnaAlto">Altura (m):</label>
+                                            <input type="number" id="calcColumnaAlto" class="control-formulario"
+                                                value="2.6" min="0.5" step="0.1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcColumnaSeccion">Sección (cm × cm):</label>
+                                            <input type="number" id="calcColumnaSeccion" class="control-formulario"
+                                                value="20" min="10" step="1">
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Volumen = (Sección/100)² × Alto × Cantidad | Cemento
+                                        = m³ × 7 | Cabilla = 4 barras/columna | Estribos = 8/columna</small>
+                                </div>
+
+                                <!-- Campos para Viga -->
+                                <div id="camposCalcViga" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcVigaLongitud">Longitud total (m lineales):</label>
+                                            <input type="number" id="calcVigaLongitud" class="control-formulario"
+                                                value="10" min="1" step="0.1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcVigaAncho">Ancho (cm):</label>
+                                            <input type="number" id="calcVigaAncho" class="control-formulario"
+                                                value="20" min="10" step="1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcVigaAlto">Alto (cm):</label>
+                                            <input type="number" id="calcVigaAlto" class="control-formulario" value="30"
+                                                min="15" step="1">
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Volumen = Longitud × (Ancho/100) × (Alto/100) |
+                                        Cemento = m³ × 7 | Cabilla = 4 barras por metro</small>
+                                </div>
+
+                                <!-- Campos para Cerámica -->
+                                <div id="camposCalcCeramica" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcCeramicaArea">Área a cubrir (m²):</label>
+                                            <input type="number" id="calcCeramicaArea" class="control-formulario"
+                                                value="20" min="1" step="0.1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcCeramicaTamano">Tamaño pieza (cm):</label>
+                                            <select id="calcCeramicaTamano" class="control-formulario">
+                                                <option value="30">30 × 30</option>
+                                                <option value="45" selected>45 × 45</option>
+                                                <option value="60">60 × 60</option>
+                                                <option value="80">80 × 80</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Piezas = (m² / (tam/100)²) × 1.10 | Adhesivo = 5
+                                        kg/m² | Fragua = 0.5 kg/m²</small>
+                                </div>
+
+                                <!-- Campos para Pintura -->
+                                <div id="camposCalcPintura" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcPinturaArea">Área de pared (m²):</label>
+                                            <input type="number" id="calcPinturaArea" class="control-formulario"
+                                                value="40" min="1" step="0.1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcPinturaManos">Número de manos:</label>
+                                            <select id="calcPinturaManos" class="control-formulario">
+                                                <option value="1">1 mano</option>
+                                                <option value="2" selected>2 manos</option>
+                                                <option value="3">3 manos</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Rendimiento: 1 galón ≈ 30 m² por mano | Sellador =
+                                        m²/40 | Thinner = m²/100</small>
+                                </div>
+
+                                <!-- Campos para Cerca -->
+                                <div id="camposCalcCerca" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcCercaLongitud">Longitud (m lineales):</label>
+                                            <input type="number" id="calcCercaLongitud" class="control-formulario"
+                                                value="20" min="1" step="0.1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcCercaAlto">Altura (m):</label>
+                                            <input type="number" id="calcCercaAlto" class="control-formulario"
+                                                value="2.4" min="1" step="0.1">
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Área = Longitud × Alto | Bloques = m² × 12.5 |
+                                        Cemento = m² × 0.20 | Cabilla = Longitud × 1.2</small>
+                                </div>
+
+                                <!-- Campos para Muro de Contención -->
+                                <div id="camposCalcMuroContencion" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcMuroLongitud">Longitud (m lineales):</label>
+                                            <input type="number" id="calcMuroLongitud" class="control-formulario"
+                                                value="10" min="1" step="0.1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcMuroAlto">Altura (m):</label>
+                                            <input type="number" id="calcMuroAlto" class="control-formulario" value="2"
+                                                min="0.5" step="0.1">
+                                        </div>
+                                        <div class="campo">
+                                            <label for="calcMuroEspesor">Espesor (m):</label>
+                                            <input type="number" id="calcMuroEspesor" class="control-formulario"
+                                                value="0.20" min="0.15" step="0.05">
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Volumen = Longitud × Alto × Espesor | Cemento = m³ ×
+                                        7 | Cabilla = Longitud × 4 barras</small>
+                                </div>
+
+                                <!-- Campos para Tanque -->
+                                <div id="camposCalcTanque" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcTanqueLitros">Capacidad (litros):</label>
+                                            <input type="number" id="calcTanqueLitros" class="control-formulario"
+                                                value="10000" min="500" step="500">
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Tanques 5000L = Capacidad / 5000 | Bomba 1HP si >
+                                        5000L | Tubería PVC 2" ≈ litros/500 metros</small>
+                                </div>
+
+                                <!-- Campos para Eléctrico -->
+                                <div id="camposCalcElectrico" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcElectricoArea">Área de construcción (m²):</label>
+                                            <input type="number" id="calcElectricoArea" class="control-formulario"
+                                                value="80" min="10" step="1">
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Cable #12 = m² × 1.5 metros | Tomacorrientes = m²/25
+                                        | Interruptores = m²/40 | Breakers = tomacorrientes/6</small>
+                                </div>
+
+                                <!-- Campos para Impermeabilización -->
+                                <div id="camposCalcImpermeabilizacion" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcImpermeArea">Área de techo (m²):</label>
+                                            <input type="number" id="calcImpermeArea" class="control-formulario"
+                                                value="100" min="10" step="0.1">
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Impermeabilizante = m² / 12.5 galones | Mortero = m²
+                                        × 0.02 m³ | Malla = m² × 1.05</small>
+                                </div>
+
+                                <!-- Campos para Pozo Séptico -->
+                                <div id="camposCalcPozoSeptico" class="grupo-campos-obra oculto">
+                                    <div class="fila-campos">
+                                        <div class="campo">
+                                            <label for="calcPozoPersonas">Personas servidas:</label>
+                                            <input type="number" id="calcPozoPersonas" class="control-formulario"
+                                                value="6" min="1" step="1">
+                                        </div>
+                                    </div>
+                                    <small class="texto-secundario">Volumen = personas × 0.15 m³ × 3 días | Bloques =
+                                        volumen × 50 | Tubería 4" = 6m | Registros = 2</small>
+                                </div>
+
+                                <div class="formulario__acciones">
+                                    <button id="btnCalcularObra" class="boton boton--primario">Calcular
+                                        Estimación</button>
+                                </div>
+                            </div>
+
+                            <!-- Resultado de la Calculadora -->
+                            <div id="resultadoCalculadora" class="resultado-calculadora oculto sv-mt-md">
+                                <h3 id="tituloResCalculadora" class="tarjeta__titulo">Estimación de Materiales</h3>
+                                <div class="tabla-responsive">
+                                    <table class="tabla">
+                                        <thead>
+                                            <tr>
+                                                <th>Material</th>
+                                                <th>Cantidad Estimada</th>
+                                                <th>Unidad</th>
+                                                <th>Cálculo Base</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="cuerpoResCalculadora">
+                                            <!-- Dinámico -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="formulario__acciones sv-mt-sm">
+                                    <button id="btnTransferirACotizador" class="boton boton--exito">➕ Agregar a la
+                                        Cotización</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- 3. MÓDULO: COTIZADOR (ASISTENTE POR PASOS CON TOTAL EN VIVO)   -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo" id="modulo-cotizador">
+                        <!-- Aviso de cotización abierta bloqueante con solución directa -->
+                        <div id="avisoCotizacionBloqueada" class="aviso aviso--error oculto sv-p-md">
+                            <!-- Llenado dinámicamente con botón a la solución -->
+                        </div>
+
+                        <!-- Banner de recuperación de borrador guardado automáticamente -->
+                        <div id="bannerBorradorGuardado" class="aviso aviso--info oculto">
+                            <div class="sv-flex-between sv-gap-sm">
+                                <div class="sv-flex-center sv-gap-sm">
+                                    <span data-icono="guardar" data-tamano="16"></span>
+                                    <span><strong>Borrador automático recuperado:</strong> Tienes una cotización en
+                                        progreso para "<span id="nombreBorradorRecuperado"
+                                            class="sv-text-bold"></span>".</span>
+                                </div>
+                                <div class="sv-flex-center sv-gap-sm">
+                                    <button type="button" class="boton boton--primario boton--sm"
+                                        id="btnContinuarBorrador">Continuar donde lo dejaste</button>
+                                    <button type="button" class="boton boton--secundario boton--sm"
+                                        id="btnDescartarBorradorGuardado">Empezar de nuevo</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Barra de Progreso del Asistente (4 Pasos) -->
+                        <div class="asistente-pasos-nav">
+                            <div class="paso-item paso-item--activo" id="pasoNav1" onclick="irAPasoCotizador(1)">
+                                <div class="paso-circulo">1</div>
+                                <div class="paso-etiqueta">
+                                    <span class="paso-numero">01 / 04</span>
+                                    <span class="paso-nombre">Obra</span>
+                                </div>
+                            </div>
+                            <div class="paso-separador" id="pasoSep1"></div>
+                            <div class="paso-item" id="pasoNav2" onclick="irAPasoCotizador(2)">
+                                <div class="paso-circulo">2</div>
+                                <div class="paso-etiqueta">
+                                    <span class="paso-numero">02 / 04</span>
+                                    <span class="paso-nombre">Materiales</span>
+                                </div>
+                            </div>
+                            <div class="paso-separador" id="pasoSep2"></div>
+                            <div class="paso-item" id="pasoNav3" onclick="irAPasoCotizador(3)">
+                                <div class="paso-circulo">3</div>
+                                <div class="paso-etiqueta">
+                                    <span class="paso-numero">03 / 04</span>
+                                    <span class="paso-nombre">Revisión</span>
+                                </div>
+                            </div>
+                            <div class="paso-separador" id="pasoSep3"></div>
+                            <div class="paso-item" id="pasoNav4" onclick="irAPasoCotizador(4)">
+                                <div class="paso-circulo">4</div>
+                                <div class="paso-etiqueta">
+                                    <span class="paso-numero">04 / 04</span>
+                                    <span class="paso-nombre">Emisión</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contenedor Dividido: Asistente + Panel de Total en Vivo -->
+                        <div class="cotizador-layout">
+                            <!-- Columna Izquierda: Pasos del Asistente -->
+                            <div class="cotizador-columna-asistente">
+
+                                <!-- PASO 1: OBRA -->
+                                <div id="pasoCotizador1" class="paso-pantalla">
+                                    <div class="tarjeta">
+                                        <h2 class="tarjeta__titulo">Paso 1: Identificación y Ubicación de la Obra</h2>
+                                        <p class="tarjeta__descripcion">Ingrese el nombre del proyecto y confirme el
+                                            estado venezolano donde se ejecutará para calcular el flete terrestre.</p>
+
+                                        <div class="campo">
+                                            <label for="inputNombreObra">Nombre descriptivo de la obra: <span
+                                                    class="sv-text-danger">*</span></label>
+                                            <input type="text" id="inputNombreObra" class="control-formulario"
+                                                placeholder="Ej: Construcción de Módulo de Salud La Candelaria">
+                                            <div id="errorNombreObra" class="mensaje-error-campo oculto"></div>
+                                        </div>
+
+                                        <div class="fila-campos">
+                                            <div class="campo">
+                                                <label for="selectEstadoObraCotizador">
+                                                    Estado Destino de la Obra: <span class="sv-text-danger">*</span>
+                                                    <span class="tooltip-contenedor">
+                                                        <button type="button" class="btn-tooltip"
+                                                            aria-label="Ayuda sobre flete">?</button>
+                                                        <span class="tooltip-texto">El flete depende de la distancia
+                                                            terrestre al estado destino (ej: Dto. Capital 0%, Miranda
+                                                            3%, Amazonas 25%).</span>
+                                                    </span>
+                                                </label>
+                                                <select id="selectEstadoObraCotizador" class="control-formulario">
+                                                    <option value="Distrito Capital">Distrito Capital (Factor Flete 1.00
+                                                        - 0%)</option>
+                                                    <option value="Aragua">Aragua (Factor Flete 1.02 - 2%)</option>
+                                                    <option value="Miranda">Miranda (Factor Flete 1.03 - 3%)</option>
+                                                    <option value="Carabobo">Carabobo (Factor Flete 1.04 - 4%)</option>
+                                                    <option value="Guárico">Guárico (Factor Flete 1.05 - 5%)</option>
+                                                    <option value="Anzoátegui">Anzoátegui (Factor Flete 1.06 - 6%)
+                                                    </option>
+                                                    <option value="Lara">Lara (Factor Flete 1.06 - 6%)</option>
+                                                    <option value="Falcón">Falcón (Factor Flete 1.07 - 7%)</option>
+                                                    <option value="Zulia">Zulia (Factor Flete 1.08 - 8%)</option>
+                                                    <option value="Barinas">Barinas (Factor Flete 1.09 - 9%)</option>
+                                                    <option value="Monagas">Monagas (Factor Flete 1.10 - 10%)</option>
+                                                    <option value="Trujillo">Trujillo (Factor Flete 1.10 - 10%)</option>
+                                                    <option value="Sucre">Sucre (Factor Flete 1.11 - 11%)</option>
+                                                    <option value="Mérida">Mérida (Factor Flete 1.12 - 12%)</option>
+                                                    <option value="Táchira">Táchira (Factor Flete 1.13 - 13%)</option>
+                                                    <option value="Bolívar">Bolívar (Factor Flete 1.14 - 14%)</option>
+                                                    <option value="Nueva Esparta">Nueva Esparta (Factor Flete 1.20 -
+                                                        20%)</option>
+                                                    <option value="Amazonas">Amazonas (Factor Flete 1.25 - 25%)</option>
+                                                </select>
+                                            </div>
+                                            <div class="campo">
+                                                <label for="inputNotasObra">Notas u Observaciones (opcional):</label>
+                                                <input type="text" id="inputNotasObra" class="control-formulario"
+                                                    placeholder="Ej: Fase I - Cerramientos y acometidas">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- PASO 2: MATERIALES -->
+                                <div id="pasoCotizador2" class="paso-pantalla oculto">
+                                    <div class="tarjeta">
+                                        <h2 class="tarjeta__titulo">Paso 2: Selección de Materiales y Cantidades</h2>
+                                        <p class="tarjeta__descripcion">Puede cargar una plantilla prediseñada, usar la
+                                            calculadora de obra o ingresar cantidades manualmente.</p>
+
+                                        <!-- Bloque de Plantillas de Obra -->
+                                        <div class="plantillas-bloque">
+                                            <div class="plantillas-titulo">
+                                                <div class="sv-flex-center sv-gap-sm sv-text-bold">
+                                                    <span data-icono="rayo" data-tamano="16"></span>
+                                                    <span>Plantillas de obra precargadas (valores referenciales):</span>
+                                                </div>
+                                                <button type="button" class="boton boton--secundario boton--sm"
+                                                    id="btnIrACalculadoraDesdePaso2">
+                                                    <span data-icono="calculadora" data-tamano="14"></span>
+                                                    <span>Usar Calculadora de Medidas</span>
+                                                </button>
+                                            </div>
+                                            <div class="plantillas-grid">
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="casa_pequena"
+                                                    title="Losa 50 m², pared h=2.5m, tubería 60m y electricidad">
+                                                    <span class="btn-plantilla__icono" data-icono="casa"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Casa pequeña 50m²</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="cerca_perimetral"
+                                                    title="Muro perimetral 20m × 2.4m con columnas y vigas">
+                                                    <span class="btn-plantilla__icono" data-icono="muro"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Cerca perimetral</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="rehabilitar_calle"
+                                                    title="25t asfalto caliente, drenaje transversal 72m y 8 luminarias LED">
+                                                    <span class="btn-plantilla__icono" data-icono="calle"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Rehabilitar una calle</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="alumbrado_publico"
+                                                    title="Línea de 350m, 20 luminarias LED 150W y 10 kits solares">
+                                                    <span class="btn-plantilla__icono" data-icono="luz"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Alumbrado público</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="sistema_agua"
+                                                    title="Red de aducción 300m en PVC 6m y obras menores de anclaje">
+                                                    <span class="btn-plantilla__icono" data-icono="agua"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Sistema de agua</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="cancha_deportiva_400m2"
+                                                    title="Cancha deportiva 400m² con losa armada, reflectores y pintura">
+                                                    <span class="btn-plantilla__icono" data-icono="deporte"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Cancha deportiva</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="estacionamiento_pavimento_500m2"
+                                                    title="Estacionamiento 500m² con asfalto, base granular y brocales">
+                                                    <span class="btn-plantilla__icono" data-icono="calle"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Estacionamiento</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="paneles_solares_5kw"
+                                                    title="Sistema solar 5 kW con 12 paneles, baterías e inversor">
+                                                    <span class="btn-plantilla__icono" data-icono="luz"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Paneles solares 5 kW</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="rehabilitacion_escuela_500m2"
+                                                    title="Rehabilitación escuela con manto 3mm, pintura y sanitarios">
+                                                    <span class="btn-plantilla__icono" data-icono="edificio"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Rehab. escuela</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="caney_comunal"
+                                                    title="Caney comunal 60m² estructura metálica y cubierta acerolit">
+                                                    <span class="btn-plantilla__icono" data-icono="casa"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Caney comunal</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="aire_acondicionado_split"
+                                                    title="Acometida eléctrica comercial, breakers y canalización">
+                                                    <span class="btn-plantilla__icono" data-icono="rayo"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Climatización</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="riego_goteo_1000m2"
+                                                    title="Riego por goteo con tubería PEAD 1 pulgada y electrobomba">
+                                                    <span class="btn-plantilla__icono" data-icono="agua"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Riego tecnificado</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="urbanismo_10_casas"
+                                                    title="Urbanismo comunal para 10 casas con acometidas matrices">
+                                                    <span class="btn-plantilla__icono" data-icono="edificio"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Urbanismo 10 casas</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="puente_peatonal_15m"
+                                                    title="Puente peatonal 15m con vigas IPE y losacero">
+                                                    <span class="btn-plantilla__icono" data-icono="muro"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Puente peatonal 15m</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="sistema_contra_incendios"
+                                                    title="Red presurizada contra incendios con bomba 2HP">
+                                                    <span class="btn-plantilla__icono" data-icono="alerta"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Contra incendios</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="tanque_elevado_10000l"
+                                                    title="Tanque elevado 10.000L con estructura IPE y reserva">
+                                                    <span class="btn-plantilla__icono" data-icono="agua"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Tanque 10.000L</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="parque_infantil_comunal"
+                                                    title="Parque infantil y plaza recreativa con brocales y luminarias">
+                                                    <span class="btn-plantilla__icono" data-icono="deporte"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Parque recreativo</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="modulo_salud_ambulatorio"
+                                                    title="Ambulatorio comunal 80m² con áreas clínicas y sanitarios">
+                                                    <span class="btn-plantilla__icono" data-icono="edificio"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Ambulatorio de salud</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="impermeabilizacion_techo_300m2"
+                                                    title="Impermeabilización techo 300m² con manto 3mm y primer">
+                                                    <span class="btn-plantilla__icono" data-icono="casa"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Impermeabilización</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="bacheo_vial_asfalto_frio"
+                                                    title="Bacheo vial en frío con emulsión y compactación">
+                                                    <span class="btn-plantilla__icono" data-icono="calle"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Bacheo en frío</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="acera_y_brocal_200m"
+                                                    title="Aceras y brocales 200m lineales en concreto">
+                                                    <span class="btn-plantilla__icono" data-icono="calle"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Aceras y brocales</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="torre_iluminacion_campo"
+                                                    title="Torre iluminación deportiva 12m con reflectores 200W">
+                                                    <span class="btn-plantilla__icono" data-icono="luz"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Torre iluminación</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="pozo_profundo_agua"
+                                                    title="Equipamiento de pozo profundo con bomba sumergible">
+                                                    <span class="btn-plantilla__icono" data-icono="agua"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Pozo profundo</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="galpon_industrial_300m2"
+                                                    title="Galpón de acopio comunal 300m² con vigas IPE y zinc">
+                                                    <span class="btn-plantilla__icono" data-icono="edificio"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Galpón 300m²</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="comedor_comunitario"
+                                                    title="Comedor comunitario con mesones de cerámica y sanitarios">
+                                                    <span class="btn-plantilla__icono" data-icono="casa"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Comedor popular</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="reparacion_puente_vehicular"
+                                                    title="Reparación puente vial con defensas flex-beam y juntas">
+                                                    <span class="btn-plantilla__icono" data-icono="muro"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Reparación puente</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="planta_electrica_comercial"
+                                                    title="Caseta mampostería para planta eléctrica auxiliar">
+                                                    <span class="btn-plantilla__icono" data-icono="rayo"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Caseta generador</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="pintura_general_edificio"
+                                                    title="Pintura y fachada edificio multifamiliar 4 pisos">
+                                                    <span class="btn-plantilla__icono" data-icono="edificio"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Pintura edificio</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="cerramiento_perimetral_malla"
+                                                    title="Cerca de malla ciclón 100m con tubos y electrosoldada">
+                                                    <span class="btn-plantilla__icono" data-icono="muro"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Cerca malla 100m</span>
+                                                </button>
+                                                <button type="button" class="btn-plantilla"
+                                                    data-plantilla="pasarela_urbana_metalica"
+                                                    title="Pasarela peatonal urbana techada sobre avenida">
+                                                    <span class="btn-plantilla__icono" data-icono="calle"
+                                                        data-tamano="20"></span>
+                                                    <span class="btn-plantilla__texto">Pasarela techada</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="fila-campos sv-my-fields">
+                                            <div class="campo">
+                                                <label for="selectCiudadCotizador">
+                                                    Ciudad Proveedora:
+                                                    <span class="tooltip-contenedor">
+                                                        <button type="button" class="btn-tooltip"
+                                                            aria-label="Ayuda ciudad">?</button>
+                                                        <span class="tooltip-texto">Puerto Ordaz cuenta con el factor
+                                                            más económico (0.90) debido a la producción siderúrgica de
+                                                            Guayana.</span>
+                                                    </span>
+                                                </label>
+                                                <select id="selectCiudadCotizador" class="control-formulario">
+                                                    <!-- Dinámico -->
+                                                </select>
+                                            </div>
+                                            <div class="campo">
+                                                <label for="inputTasaBCVCotizador">
+                                                    Tasa Oficial BCV (Bs./USD):
+                                                    <span id="badgeFechaTasaBCV"
+                                                        class="texto-secundario sv-font-sm sv-font-normal sv-ml-xs"></span>
+                                                </label>
+                                                <input type="number" id="inputTasaBCVCotizador"
+                                                    class="control-formulario" step="0.01" min="0.01" value="900.00">
+                                                <div id="avisoTasaBCVDesactualizada"
+                                                    class="texto-advertencia-pequeno oculto sv-font-sm sv-text-warning sv-mt-xs">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="sv-flex-between sv-gap-sm sv-mb-sm sv-flex-wrap" id="barraFiltrosCotizador">
+                                            <input type="text" id="buscadorMaterialesCotizador" class="control-formulario sv-w-auto" style="min-width:240px;" placeholder="🔍 Filtrar materiales por nombre..." oninput="filtrarTablaCotizadorEnVivo()">
+                                            <select id="filtroSectorCotizador" class="control-formulario sv-w-auto" onchange="filtrarTablaCotizadorEnVivo()">
+                                                <option value="TODOS">Todos los sectores</option>
+                                                <option value="Construcción">Construcción</option>
+                                                <option value="Energía">Energía</option>
+                                                <option value="Agua">Agua</option>
+                                                <option value="Vialidad">Vialidad</option>
+                                                <option value="Acabados">Acabados</option>
+                                                <option value="Equipos">Equipos</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="tabla-responsive">
+                                            <table class="tabla" id="tablaMaterialesCotizador">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Material</th>
+                                                        <th>Sector</th>
+                                                        <th>Unidad</th>
+                                                        <th id="thPrecioCotizador">Precio Base (USD)</th>
+                                                        <th>Cantidad Requerida</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="cuerpoTablaCotizador">
+                                                    <!-- Dinámico -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- PASO 3: REVISIÓN -->
+                                <div id="pasoCotizador3" class="paso-pantalla oculto">
+                                    <div class="tarjeta">
+                                        <div class="sv-flex-between sv-gap-sm sv-mb-sm">
+                                            <div>
+                                                <h2 class="tarjeta__titulo sv-mb-0">Paso 3: Revisión Detallada del
+                                                    Presupuesto</h2>
+                                                <p class="tarjeta__descripcion sv-mb-0">Verifique las partidas y el
+                                                    desglose de flete, descuentos e impuestos antes del envío.</p>
+                                            </div>
+                                            <button type="button" class="boton boton--secundario"
+                                                id="btnComoSeCalculoCotizador">
+                                                <span data-icono="calculadora" data-tamano="14"></span>
+                                                <span>¿Cómo se calculó esto?</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="resumen-obra-caja" id="resumenObraPaso3">
+                                            <!-- Dinámico -->
+                                        </div>
+
+                                        <h3 class="sv-font-md sv-my-title-sm">Materiales Incluidos:</h3>
+                                        <div class="tabla-responsive">
+                                            <table class="tabla">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Material</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Unidad</th>
+                                                        <th>Precio Ajustado</th>
+                                                        <th>Total USD</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="cuerpoTablaPaso3">
+                                                    <!-- Dinámico -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <h3 class="sv-font-md sv-my-title-md">Desglose Financiero y Tributario:</h3>
+                                        <div id="contenedorDesgloseCotizacionPaso3">
+                                            <!-- Dinámico -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- PASO 4: ENVÍO Y CONFIRMACIÓN -->
+                                <div id="pasoCotizador4" class="paso-pantalla oculto">
+                                    <div class="tarjeta sv-text-center sv-p-emision">
+                                        <div class="sv-icono-exito-wrap">
+                                            <span data-icono="documento" data-tamano="32"></span>
+                                        </div>
+                                        <h2 class="tarjeta__titulo sv-font-xl">Cotización Lista para Emitir</h2>
+                                        <p class="tarjeta__descripcion sv-max-w-550 sv-mx-auto sv-mb-md">
+                                            Su presupuesto ha sido calculado cumpliendo con toda la normativa técnica y
+                                            fiscal venezolana. Seleccione la acción a realizar:
+                                        </p>
+
+                                        <div class="tarjeta-resumen-envio" id="tarjetaResumenEnvio">
+                                            <!-- Dinámico -->
+                                        </div>
+
+                                        <div class="formulario__acciones sv-flex-center sv-mt-lg">
+                                            <button id="btnGuardarBorrador" class="boton boton--secundario">
+                                                <span data-icono="guardar" data-tamano="14"></span>
+                                                <span>Guardar Borrador</span>
+                                            </button>
+                                            <button id="btnEnviarGobernacion" class="boton boton--exito">
+                                                <span data-icono="enviar" data-tamano="14"></span>
+                                                <span>Enviar para Aprobación</span>
+                                            </button>
+                                            <button id="btnVerDocImprimible" class="boton boton--primario">
+                                                <span data-icono="impresora" data-tamano="14"></span>
+                                                <span>Ver Documento / Imprimir</span>
+                                            </button>
+                                            <button id="btnCompartirWhatsApp" class="boton boton--wa">
+                                                <span data-icono="compartir" data-tamano="14"></span>
+                                                <span>Compartir WhatsApp</span>
+                                            </button>
+                                            <button id="btnCancelarCotizacion"
+                                                class="boton boton--peligro">Descartar</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Botones de Navegación del Asistente -->
+                                <div class="asistente-navegacion-acciones">
+                                    <button type="button" class="boton boton--secundario" id="btnAtrasAsistente"
+                                        disabled>
+                                        <span data-icono="flechaIzquierda" data-tamano="14"></span>
+                                        <span>Atrás</span>
+                                    </button>
+                                    <button type="button" class="boton boton--primario" id="btnSiguienteAsistente">
+                                        <span>Siguiente</span>
+                                        <span data-icono="flechaDerecha" data-tamano="14"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Columna Derecha: Panel de Total en Vivo (Reactivo) -->
+                            <div class="cotizador-columna-vivo">
+                                <div class="panel-total-vivo" id="asistentePanelEnVivo">
+                                    <div class="panel-total-vivo__header">
+                                        <span class="panel-total-vivo__titulo">⚡ Total en Vivo</span>
+                                        <span id="indicadorGuardadoBorrador"
+                                            class="texto-secundario sv-indicador-borrador"></span>
+                                        <span class="badge-items-vivo" id="badgeItemsEnVivo">0 items</span>
+                                    </div>
+
+                                    <div class="panel-total-vivo__cuerpo">
+                                        <div class="vivo-linea">
+                                            <span>Subtotal Base:</span>
+                                            <span id="vivoSubtotal">$0,00</span>
+                                        </div>
+                                        <div class="vivo-linea">
+                                            <span>Flete Terrestre:</span>
+                                            <span id="vivoFlete">$0,00</span>
+                                        </div>
+                                        <div class="vivo-linea">
+                                            <span>Descuento Perfil:</span>
+                                            <span id="vivoDescuento" class="sv-text-success">-$0,00</span>
+                                        </div>
+                                        <div class="vivo-linea">
+                                            <span>Contingencia (5%):</span>
+                                            <span id="vivoContingencia">$0,00</span>
+                                        </div>
+                                        <div class="vivo-linea">
+                                            <span>I.V.A. Ley (16%):</span>
+                                            <span id="vivoIVA">$0,00</span>
+                                        </div>
+
+                                        <div class="vivo-total-bloque">
+                                            <div class="vivo-total-etiqueta">TOTAL ESTIMADO (USD)</div>
+                                            <div class="vivo-total-monto" id="vivoTotalUSD">$0,00</div>
+                                        </div>
+
+                                        <div class="vivo-total-bloque vivo-total-bloque--bs">
+                                            <div class="vivo-total-etiqueta">TOTAL EN BOLÍVARES (BCV)</div>
+                                            <div class="vivo-total-monto vivo-total-monto--bs" id="vivoTotalBs">Bs. 0,00
+                                            </div>
+                                        </div>
+
+                                        <small
+                                            class="texto-secundario sv-flex-center sv-gap-xs sv-mt-sm sv-font-sm sv-text-center">
+                                            <span data-icono="actualizar" data-tamano="13"></span>
+                                            <span>Cálculo automático continuo al modificar partidas o plantillas.</span>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- 4. MÓDULO: DÓNDE CONVIENE COMPRAR                            -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo" id="modulo-ciudades">
+                        <div class="tarjeta">
+                            <h2 class="tarjeta__titulo">Dónde Conviene Comprar — Comparativa Nacional</h2>
+                            <p class="tarjeta__descripcion">
+                                Tabla comparativa de ciudades ordenadas de menor a mayor costo según su factor regional
+                                para optimizar el presupuesto de adquisición de suministros.
+                            </p>
+
+                            <div class="tabla-responsive">
+                                <table class="tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Posición</th>
+                                            <th>Ciudad</th>
+                                            <th>Factor de Precio</th>
+                                            <th>Recomendación Técnica</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cuerpoTablaCiudades">
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- 5. MÓDULO: CATÁLOGO EDITABLE (SOLO GOBERNACIÓN)             -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-catalogo">
+                        <div class="tarjeta">
+                            <div class="sv-flex-between sv-gap-sm sv-mb-sm">
+                                <div>
+                                    <h2 class="tarjeta__titulo sv-mb-0">Catálogo Maestro de Precios y Materiales</h2>
+                                    <p class="tarjeta__descripcion sv-mb-0">Administración exclusiva de la Gobernación
+                                        del Estado.</p>
+                                </div>
+                                <button class="boton boton--exito" onclick="abrirModalNuevoMaterial()">➕ Nuevo
+                                    Material</button>
+                            </div>
+
+                            <div class="sv-mb-md" style="margin-top: 1rem; margin-bottom: 1rem;">
+                                <input type="text" id="buscadorCatalogo" class="control-formulario"
+                                    placeholder="🔍 Buscar material o sector en tiempo real..."
+                                    oninput="renderizarModuloCatalogo()">
+                            </div>
+
+                            <div class="tabla-responsive">
+                                <table class="tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre del Material</th>
+                                            <th>Sector</th>
+                                            <th>Unidad</th>
+                                            <th>Precio Base (USD)</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cuerpoTablaCatalogo">
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- 6. MÓDULO: APROBACIONES (SOLO GOBERNACIÓN)                  -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-aprobaciones">
+                        <div class="tarjeta">
+                            <h2 class="tarjeta__titulo">Cotizaciones Pendientes de Aprobación</h2>
+                            <p class="tarjeta__descripcion">
+                                Valide que el monto de la cotización no supere el saldo presupuestario disponible del
+                                solicitante.
+                                Al aprobar se reservan fondos en saldo comprometido.
+                            </p>
+
+                            <div class="tabla-responsive">
+                                <table class="tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Correlativo</th>
+                                            <th>Fecha</th>
+                                            <th>Solicitante</th>
+                                            <th>Monto Total</th>
+                                            <th>Disponibilidad Presupuestaria</th>
+                                            <th>Plan Financiamiento</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cuerpoTablaAprobaciones">
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tarjeta">
+                            <h2 class="tarjeta__titulo">Cotizaciones Aprobadas Listas para Despacho / Entrega</h2>
+                            <p class="tarjeta__descripcion">
+                                Al marcar como "Entregada", el monto pasa de saldo comprometido a gasto definitivo
+                                ejecutado.
+                            </p>
+
+                            <div class="tabla-responsive">
+                                <table class="tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Correlativo</th>
+                                            <th>Cliente</th>
+                                            <th>Total USD</th>
+                                            <th>Estado Presupuesto</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cuerpoTablaParaEntrega">
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- 6B. MÓDULO: CARTERA GLOBAL Y COBRANZAS (SOLO GOBERNACIÓN)    -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-cartera">
+                        <div class="tarjeta">
+                            <h2 class="tarjeta__titulo">Cartera Global de Financiamiento y Cobranzas</h2>
+                            <p class="tarjeta__descripcion">
+                                Supervisión integral de créditos y financiamientos bajo esquema Cashea e institucional
+                                para todas las entidades públicas y privadas.
+                            </p>
+
+                            <div class="grid-resumen-cuotas sv-mb-md">
+                                <div class="tarjeta sv-text-center">
+                                    <span class="sv-text-muted sv-font-xs">Cartera Total Emitida</span>
+                                    <div id="kpiCarteraTotal" class="sv-font-xl sv-font-bold sv-mt-xs">$0,00</div>
+                                </div>
+                                <div class="tarjeta sv-text-center">
+                                    <span class="sv-text-muted sv-font-xs">Recaudación Efectiva</span>
+                                    <div id="kpiCarteraRecaudada"
+                                        class="sv-font-xl sv-font-bold sv-mt-xs sv-text-exito">$0,00</div>
+                                </div>
+                                <div class="tarjeta sv-text-center">
+                                    <span class="sv-text-muted sv-font-xs">Saldo en Cobranza</span>
+                                    <div id="kpiCarteraPendiente"
+                                        class="sv-font-xl sv-font-bold sv-mt-xs sv-text-alerta">$0,00</div>
+                                </div>
+                                <div class="tarjeta sv-text-center">
+                                    <span class="sv-text-muted sv-font-xs">Mora Activa Total</span>
+                                    <div id="kpiCarteraMora" class="sv-font-xl sv-font-bold sv-mt-xs sv-text-peligro">
+                                        $0,00</div>
+                                </div>
+                            </div>
+
+                            <!-- Filtros de Cartera Global -->
+                            <div class="sv-flex-between sv-gap-sm sv-mb-md sv-flex-wrap"
+                                style="background:var(--color-superficie-subtil); padding:0.75rem 1rem; border-radius:var(--radio-md); border:1px solid var(--color-borde);">
+                                <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+                                    <label for="filtroUsuarioCartera" style="font-size:0.8rem; font-weight:600;">Filtrar
+                                        Solicitante:</label>
+                                    <select id="filtroUsuarioCartera" class="control-formulario"
+                                        style="font-size:0.8rem; padding:0.35rem 0.6rem; min-width:180px;"
+                                        onchange="renderizarModuloCartera()">
+                                        <option value="TODOS">-- Todos los solicitantes --</option>
+                                    </select>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+                                    <label for="filtroEstadoCartera" style="font-size:0.8rem; font-weight:600;">Estado
+                                        del Plan:</label>
+                                    <select id="filtroEstadoCartera" class="control-formulario"
+                                        style="font-size:0.8rem; padding:0.35rem 0.6rem; min-width:140px;"
+                                        onchange="renderizarModuloCartera()">
+                                        <option value="TODOS">Todos los Estados</option>
+                                        <option value="ACTIVO">Activos</option>
+                                        <option value="EN_MORA">En Mora</option>
+                                        <option value="PAGADO">Pagados</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="tabla-responsive">
+                                <table class="tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Cotización</th>
+                                            <th>Beneficiario</th>
+                                            <th>Modalidad</th>
+                                            <th>Total Financiado</th>
+                                            <th>Cobrado</th>
+                                            <th>Saldo Pendiente</th>
+                                            <th>Progreso Cuotas</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cuerpoTablaCarteraGlobal">
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- 7. MÓDULO: HISTORIAL DE COTIZACIONES                        -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo" id="modulo-historial">
+                        <div class="tarjeta">
+                            <div class="sv-flex-between sv-gap-sm sv-mb-sm">
+                                <h2 class="tarjeta__titulo sv-mb-0">Historial y Trazabilidad de Cotizaciones</h2>
+                                <div class="sv-flex-center sv-gap-sm">
+                                    <button type="button" class="boton boton--primario boton--sm oculto"
+                                        id="btnCompararCotizaciones" onclick="abrirComparadorCotizaciones()">⚖️ Comparar
+                                        Seleccionadas</button>
+                                    <label for="filtroEstadoHistorial">Filtrar por Estado:</label>
+                                    <select id="filtroEstadoHistorial" class="control-formulario sv-w-auto">
+                                        <option value="TODAS">Todas</option>
+                                        <option value="BORRADOR">Borrador</option>
+                                        <option value="ENVIADA">Enviada</option>
+                                        <option value="APROBADA">Aprobada</option>
+                                        <option value="RECHAZADA">Rechazada</option>
+                                        <option value="ENTREGADA">Entregada</option>
+                                        <option value="CANCELADA">Cancelada</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="tabla-responsive">
+                                <table class="tabla">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 40px; text-align: center;"
+                                                title="Seleccionar para comparar">⚖️</th>
+                                            <th>N° Correlativo</th>
+                                            <th>Fecha</th>
+                                            <th>Cliente</th>
+                                            <th>Punto Compra</th>
+                                            <th>Total USD</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cuerpoTablaHistorial">
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- 7B. MÓDULO: MIS CUOTAS Y FINANCIAMIENTO (CASHEA / PLAZOS)    -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo" id="modulo-financiamiento">
+                        <div class="tarjeta">
+                            <div class="sv-flex-between sv-gap-sm sv-mb-sm">
+                                <div>
+                                    <h2 class="tarjeta__titulo sv-mb-0">Mis Planes de Financiamiento y Cuotas</h2>
+                                    <p class="tarjeta__descripcion sv-mb-0">
+                                        Gestión de pagos a plazos bajo esquema Cashea y líneas de crédito
+                                        institucionales.
+                                    </p>
+                                </div>
+                                <div id="alertaMoraUsuarioFinanciamiento" class="oculto">
+                                    <span class="badge-peligro">⚠️ Cuenta con Cuotas Vencidas en Mora</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resumen de estado de cuotas -->
+                        <div class="grid-resumen-cuotas sv-mb-md">
+                            <div class="tarjeta sv-text-center">
+                                <span class="sv-text-muted sv-font-xs">Total Financiado</span>
+                                <div id="kpiTotalFinanciado" class="sv-font-xl sv-font-bold sv-mt-xs">$0,00</div>
+                            </div>
+                            <div class="tarjeta sv-text-center">
+                                <span class="sv-text-muted sv-font-xs">Total Pagado</span>
+                                <div id="kpiTotalPagado" class="sv-font-xl sv-font-bold sv-mt-xs sv-text-exito">$0,00
+                                </div>
+                            </div>
+                            <div class="tarjeta sv-text-center">
+                                <span class="sv-text-muted sv-font-xs">Saldo Pendiente</span>
+                                <div id="kpiSaldoPendiente" class="sv-font-xl sv-font-bold sv-mt-xs sv-text-alerta">
+                                    $0,00</div>
+                            </div>
+                            <div class="tarjeta sv-text-center">
+                                <span class="sv-text-muted sv-font-xs">Mora Acumulada</span>
+                                <div id="kpiMoraAcumulada" class="sv-font-xl sv-font-bold sv-mt-xs sv-text-peligro">
+                                    $0,00</div>
+                            </div>
+                        </div>
+
+                        <!-- Lista de planes y cronogramas -->
+                        <div id="contenedorPlanesFinanciamiento">
+                            <!-- Dinámico -->
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- 8. MÓDULO: SUPERVISIÓN GLOBAL (SOLO GOBERNACIÓN)            -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-supervision">
+                        <div class="tarjeta">
+                            <h2 class="tarjeta__titulo">Ranking de Ejecución por Usuario</h2>
+                            <p class="tarjeta__descripcion">
+                                Usuarios ordenados de mayor a menor monto aprobado mediante <strong>algoritmo burbuja
+                                    manual descendente</strong>.
+                            </p>
+
+                            <div class="tabla-responsive">
+                                <table class="tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Posición</th>
+                                            <th>Nombre del Usuario</th>
+                                            <th>Perfil</th>
+                                            <th>Estado</th>
+                                            <th>N° Cotizaciones</th>
+                                            <th>Monto Aprobado</th>
+                                            <th>Monto Entregado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cuerpoTablaSupervisionRanking">
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="grid-dos-columnas">
+                            <div class="tarjeta">
+                                <h2 class="tarjeta__titulo">Totales por Perfil Institucional</h2>
+                                <div class="tabla-responsive">
+                                    <table class="tabla">
+                                        <thead>
+                                            <tr>
+                                                <th>Perfil</th>
+                                                <th>Inversión Total Aprobada (USD)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="cuerpoTotalesPerfilSupervision"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="tarjeta">
+                                <h2 class="tarjeta__titulo">Totales por Estado Geográfico</h2>
+                                <div class="tabla-responsive">
+                                    <table class="tabla">
+                                        <thead>
+                                            <tr>
+                                                <th>Estado</th>
+                                                <th>Inversión Total Aprobada (USD)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="cuerpoTotalesEstadoSupervision"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- 9. MÓDULO: BITÁCORA Y ALERTAS (SOLO GOBERNACIÓN)            -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-bitacora">
+                        <div class="tarjeta">
+                            <h2 class="tarjeta__titulo">Alertas Tempranas del Sistema</h2>
+                            <div id="contenedorTarjetasAlertas">
+                                <!-- Dinámico -->
+                            </div>
+                        </div>
+
+                        <div class="tarjeta">
+                            <h2 class="tarjeta__titulo">Bitácora de Auditoría de Eventos</h2>
+                            <p class="tarjeta__descripcion">Registro inmutable de inicio de sesión, cotizaciones,
+                                aprobaciones y modificaciones de precio.</p>
+                            <div class="tabla-responsive sv-max-h-400">
+                                <table class="tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha y Hora</th>
+                                            <th>Usuario</th>
+                                            <th>Acción</th>
+                                            <th>Detalle</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cuerpoTablaBitacora">
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- 9.1 MÓDULO: ESTADO INTEGRAL DE USUARIOS (SOLO GOBERNACIÓN)    -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-estado-usuarios">
+                        <div class="tarjeta sv-mb-lg">
+                            <div class="sv-flex-between sv-items-center sv-gap-md sv-flex-wrap">
+                                <div>
+                                    <h2 class="tarjeta__titulo sv-flex-center sv-gap-sm">
+                                        <span data-icono="usuario" data-tamano="22"></span>
+                                        <span>Estado Integral de Usuarios y Control Institucional</span>
+                                    </h2>
+                                    <p class="tarjeta__descripcion sv-mb-0">
+                                        Supervisión consolidada de solvencia presupuestaria, expedientes, estados de cuenta y límites de crédito por ente o contratista.
+                                    </p>
+                                </div>
+                                <div class="sv-flex-center sv-gap-sm">
+                                    <button type="button" class="boton boton--secundario" id="btnExportarUsuariosCSV">
+                                        <span data-icono="descargar" data-tamano="14"></span>
+                                        <span>Exportar Directorio CSV</span>
+                                    </button>
+                                    <button type="button" class="boton boton--primario" id="btnRecargarEstadoUsuarios">
+                                        <span data-icono="actualizar" data-tamano="14"></span>
+                                        <span>Actualizar Saldos</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- KPIs de Usuarios -->
+                        <div class="grid-cuatro-columnas sv-mb-lg">
+                            <div class="tarjeta-kpi">
+                                <div class="tarjeta-kpi__icono" data-icono="usuario"></div>
+                                <div class="tarjeta-kpi__info">
+                                    <div class="tarjeta-kpi__etiqueta">Total Entidades / Usuarios</div>
+                                    <div class="tarjeta-kpi__valor" id="kpiTotalUsuariosRegistrados">0</div>
+                                    <div class="tarjeta-kpi__subtexto" id="kpiSubtextoUsuariosActivos">0 activos</div>
+                                </div>
+                            </div>
+                            <div class="tarjeta-kpi">
+                                <div class="tarjeta-kpi__icono" data-icono="check"></div>
+                                <div class="tarjeta-kpi__info">
+                                    <div class="tarjeta-kpi__etiqueta">Solventes / Al Día</div>
+                                    <div class="tarjeta-kpi__valor sv-text-success" id="kpiUsuariosSolventes">0</div>
+                                    <div class="tarjeta-kpi__subtexto">Sin cuotas vencidas</div>
+                                </div>
+                            </div>
+                            <div class="tarjeta-kpi">
+                                <div class="tarjeta-kpi__icono" data-icono="alerta"></div>
+                                <div class="tarjeta-kpi__info">
+                                    <div class="tarjeta-kpi__etiqueta">Usuarios en Mora</div>
+                                    <div class="tarjeta-kpi__valor sv-text-danger" id="kpiUsuariosEnMora">0</div>
+                                    <div class="tarjeta-kpi__subtexto" id="kpiMontoMoraUsuariosTotal">$0,00 total mora</div>
+                                </div>
+                            </div>
+                            <div class="tarjeta-kpi">
+                                <div class="tarjeta-kpi__icono" data-icono="dinero"></div>
+                                <div class="tarjeta-kpi__info">
+                                    <div class="tarjeta-kpi__etiqueta">Cupo Comprometido Total</div>
+                                    <div class="tarjeta-kpi__valor sv-text-warning" id="kpiCupoComprometidoGlobal">$0,00</div>
+                                    <div class="tarjeta-kpi__subtexto">Reservado en aprobadas</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Filtros del Directorio -->
+                        <div class="tarjeta sv-mb-lg">
+                            <div class="grid-cuatro-columnas">
+                                <div class="campo">
+                                    <label for="buscarUsuarioAdmin">Buscar Usuario / Ente:</label>
+                                    <input type="text" id="buscarUsuarioAdmin" class="control-formulario" placeholder="Nombre, usuario o estado...">
+                                </div>
+                                <div class="campo">
+                                    <label for="filtroPerfilAdmin">Perfil Institucional:</label>
+                                    <select id="filtroPerfilAdmin" class="control-formulario">
+                                        <option value="TODOS">Todos los perfiles</option>
+                                        <option value="Gobernación">Gobernación (Supervisores)</option>
+                                        <option value="Alcaldía">Alcaldías</option>
+                                        <option value="Empresa">Empresas Contratistas</option>
+                                        <option value="Constructor">Constructores Comunales</option>
+                                    </select>
+                                </div>
+                                <div class="campo">
+                                    <label for="filtroEstadoCuentaAdmin">Estado de Cuenta:</label>
+                                    <select id="filtroEstadoCuentaAdmin" class="control-formulario">
+                                        <option value="TODOS">Todos los estados</option>
+                                        <option value="ACTIVO">Solo Activos</option>
+                                        <option value="INACTIVO">Solo Desactivados</option>
+                                    </select>
+                                </div>
+                                <div class="campo">
+                                    <label for="filtroEstadoFinancieroAdmin">Solvencia Financiera:</label>
+                                    <select id="filtroEstadoFinancieroAdmin" class="control-formulario">
+                                        <option value="TODOS">Todas las situaciones</option>
+                                        <option value="SOLVENTE">Solvente (Al día)</option>
+                                        <option value="EN_MORA">En Mora (Cuotas atrasadas)</option>
+                                        <option value="SOBREGIRADO">Sobregirado (>90% límite)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tabla de Usuarios -->
+                        <div class="tarjeta">
+                            <div class="sv-flex-between sv-items-center sv-mb-md">
+                                <h3 class="tarjeta__titulo sv-mb-0">Directorio General de Entidades y Contratistas</h3>
+                                <span class="sv-badge sv-badge--info" id="conteoFiltradosUsuarios">0 usuarios</span>
+                            </div>
+                            <div class="tabla-responsive">
+                                <table class="tabla" id="tablaEstadoUsuarios">
+                                    <thead>
+                                        <tr>
+                                            <th>Usuario / Ente</th>
+                                            <th>Perfil</th>
+                                            <th>Ubicación</th>
+                                            <th>Límite de Cupo</th>
+                                            <th>Gastado</th>
+                                            <th>Comprometido</th>
+                                            <th>Disponible</th>
+                                            <th>Solvencia</th>
+                                            <th>Acceso</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cuerpoTablaEstadoUsuarios">
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- MÓDULOS EMPRESARIALES E INSTITUCIONALES SICOP-VE 2.0         -->
+                    <!-- ============================================================ -->
+
+                    <!-- 11. CENTRO DE CONTROL FINANCIERO -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-control-financiero">
+                        <!-- Renderizado dinámico vía renderizarModuloControlFinanciero() -->
+                    </section>
+
+                    <!-- 12. CONCILIACIÓN DE PAGOS -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-conciliacion-pagos">
+                        <!-- Renderizado dinámico vía renderizarModuloConciliacionPagos() -->
+                    </section>
+
+                    <!-- 13. PROYECCIONES FINANCIERAS -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-proyecciones">
+                        <!-- Renderizado dinámico vía renderizarModuloProyecciones() -->
+                    </section>
+
+                    <!-- 14. GESTIÓN PRESUPUESTARIA -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-presupuestos">
+                        <!-- Renderizado dinámico vía renderizarModuloPresupuestos() -->
+                    </section>
+
+                    <!-- 15. PROYECTOS Y OBRAS PÚBLICAS -->
+                    <section class="seccion-modulo oculto" id="modulo-proyectos">
+                        <!-- Renderizado dinámico vía renderizarModuloProyectos() -->
+                    </section>
+
+                    <!-- 16. GESTIÓN MULTIINSTITUCIONAL -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-instituciones">
+                        <!-- Renderizado dinámico vía renderizarModuloInstituciones() -->
+                    </section>
+
+                    <!-- 17. INVENTARIO Y ALMACENES -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-inventario">
+                        <!-- Renderizado dinámico vía renderizarModuloInventario() -->
+                    </section>
+
+                    <!-- 18. PROVEEDORES Y PRECIOS HISTÓRICOS -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-proveedores">
+                        <!-- Renderizado dinámico vía renderizarModuloProveedores() -->
+                    </section>
+
+                    <!-- 19. GESTOR DOCUMENTAL -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-documentos">
+                        <!-- Renderizado dinámico vía renderizarModuloDocumentos() -->
+                    </section>
+
+                    <!-- 20. INTELIGENCIA DE GESTIÓN -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-inteligencia">
+                        <!-- Renderizado dinámico vía renderizarModuloInteligencia() -->
+                    </section>
+
+                    <!-- 21. MONITOR DEL SISTEMA -->
+                    <section class="seccion-modulo solo-gobernacion oculto" id="modulo-monitor-sistema">
+                        <!-- Renderizado dinámico vía renderizarModuloMonitorSistema() -->
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- 10. MÓDULO: EXPORTAR E IMPORTAR DATOS Y MODO DEMOSTRACIÓN   -->
+                    <!-- ============================================================ -->
+                    <section class="seccion-modulo" id="modulo-respaldo">
+                        <!-- Tarjeta Especial: Modo Demostración para Clase -->
+                        <div class="tarjeta sv-tarjeta-destacada">
+                            <div class="sv-flex-between sv-gap-lg">
+                                <div>
+                                    <h2 class="tarjeta__titulo sv-text-accent sv-flex-center sv-gap-sm">
+                                        <span data-icono="gorro" data-tamano="20"></span>
+                                        <span>Modo Demostración para Exposición</span>
+                                    </h2>
+                                    <p class="tarjeta__descripcion sv-mb-0 sv-text-muted">
+                                        Inicialice la plataforma para la presentación académica en un clic: datos
+                                        completos o reinicio limpio.
+                                    </p>
+                                </div>
+                                <div class="sv-flex-center sv-gap-md">
+                                    <button type="button" class="boton boton--primario" id="btnCargarDatosDemo">
+                                        <span data-icono="actualizar" data-tamano="14"></span>
+                                        <span>Cargar Datos de Demostración</span>
+                                    </button>
+                                    <button type="button" class="boton boton--peligro" id="btnVaciarTodoDemo">
+                                        <span data-icono="eliminar" data-tamano="14"></span>
+                                        <span>Reiniciar a Cero</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid-dos-columnas">
+                            <div class="tarjeta">
+                                <h2 class="tarjeta__titulo">Exportar Información</h2>
+                                <p class="tarjeta__descripcion">Descargue copias de seguridad de sus datos en formatos
+                                    estándar:</p>
+                                <div class="sv-flex-col sv-gap-md">
+                                    <button class="boton boton--primario" onclick="exportarDatosJSON()">
+                                        <span data-icono="descargar" data-tamano="14"></span>
+                                        <span>Exportar Respaldo Completo (JSON)</span>
+                                    </button>
+                                    <button class="boton boton--secundario" onclick="exportarCotizacionesCSV()">
+                                        <span data-icono="documento" data-tamano="14"></span>
+                                        <span>Exportar Cotizaciones (CSV para Excel)</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="tarjeta">
+                                <h2 class="tarjeta__titulo">Restaurar o Restablecer</h2>
+                                <p class="tarjeta__descripcion">Cargue un archivo JSON previamente exportado para
+                                    recuperar la información:</p>
+                                <div class="campo sv-mb-sm">
+                                    <label for="inputImportarJSON">Seleccionar archivo de respaldo .json:</label>
+                                    <input type="file" id="inputImportarJSON" accept=".json" class="control-formulario">
+                                </div>
+                                <hr class="sv-divisor">
+                                <hr class="sv-divisor">
+                                <p class="tarjeta__descripcion">Si algún usuario demo no aparece en el login (por
+                                    ejemplo, Ing. Marcos Rivas), use este botón para restaurarlos sin perder los datos
+                                    existentes:</p>
+                                <button class="boton boton--exito sv-mb-sm" id="btnRepararUsuariosDemo">
+                                    <span data-icono="actualizar" data-tamano="14"></span>
+                                    <span>Reparar Usuarios de Demostración</span>
+                                </button>
+
+                                <button class="boton boton--secundario" onclick="restablecerFabricaConConfirmacion()">
+                                    <span data-icono="alerta" data-tamano="14"></span>
+                                    <span>Restablecer Valores Iniciales de Fábrica</span>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================================================ -->
+                    <!-- VISTA DE DOCUMENTO IMPRIMIBLE (MODAL / OVERLAY)             -->
+                    <!-- ============================================================ -->
+                    <div id="vistaDocumentoImprimible" class="vista-imprimible oculto">
+                        <div class="barra-acciones-impresion no-imprimir">
+                            <button class="boton boton--primario" onclick="imprimirDocumentoActual()">
+                                <span data-icono="impresora" data-tamano="14"></span>
+                                <span>Imprimir / Exportar PDF</span>
+                            </button>
+                            <button class="boton boton--wa" onclick="compartirDocumentoWhatsApp()">
+                                <span data-icono="compartir" data-tamano="14"></span>
+                                <span>Compartir WhatsApp</span>
+                            </button>
+                            <button class="boton boton--secundario" onclick="ocultarVistaImprimible()">
+                                <span data-icono="cerrar" data-tamano="14"></span>
+                                <span>Cerrar Vista</span>
+                            </button>
+                        </div>
+                        <div class="hoja-documento" id="contenidoDocumentoImprimible">
+                            <!-- Renderizado dinámicamente -->
+                        </div>
+                    </div>
+
+                </main>
+
+                <!-- PIE DE PÁGINA CENTRADO Y LIMPIO -->
+                <footer class="pie no-imprimir sv-footer-legal">
+                    <p>SICOP-VE © <span id="anioFooter">2026</span> — Sistema Integrado de Cotización y Control
+                        Presupuestario. Todos los derechos reservados.</p>
+                </footer>
+            </div>
+        </div>
+
+        <!-- BARRA INFERIOR MÓVIL (< 768px) -->
+        <nav class="bottom-nav no-imprimir" id="bottomNav">
+            <button type="button" class="bottom-nav__item activa" onclick="cambiarPestana('dashboard')"
+                data-bottom-modulo="dashboard">
+                <span data-icono="dashboard" data-tamano="18"></span>
+                <span>Dashboard</span>
+            </button>
+            <button type="button" class="bottom-nav__item" onclick="cambiarPestana('cotizador')"
+                data-bottom-modulo="cotizador">
+                <span data-icono="cotizador" data-tamano="18"></span>
+                <span>Cotizar</span>
+            </button>
+            <button type="button" class="bottom-nav__item" onclick="cambiarPestana('calculadora')"
+                data-bottom-modulo="calculadora">
+                <span data-icono="calculadora" data-tamano="18"></span>
+                <span>Calcular</span>
+            </button>
+            <button type="button" class="bottom-nav__item" onclick="cambiarPestana('historial')"
+                data-bottom-modulo="historial">
+                <span data-icono="historial" data-tamano="18"></span>
+                <span>Historial</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL PARA AGREGAR / EDITAR MATERIAL                         -->
+    <!-- ============================================================ -->
+    <div id="modalMaterial" class="modal-fondo oculto">
+        <div class="modal-caja">
+            <h2 id="modalMaterialTitulo" class="tarjeta__titulo">Registrar Material</h2>
+            <div class="campo">
+                <label for="matNombre">Nombre del Material:</label>
+                <input type="text" id="matNombre" class="control-formulario" placeholder="Ej: Pintura Esmalte">
+            </div>
+            <div class="fila-campos">
+                <div class="campo">
+                    <label for="matSector">Sector:</label>
+                    <select id="matSector" class="control-formulario">
+                        <option value="Construcción">Construcción</option>
+                        <option value="Energía">Energía</option>
+                        <option value="Agua">Agua</option>
+                        <option value="Vialidad">Vialidad</option>
+                        <option value="Acabados">Acabados</option>
+                        <option value="Equipos">Equipos</option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="matUnidad">Unidad de Medida:</label>
+                    <input type="text" id="matUnidad" class="control-formulario" placeholder="Ej: Galón, Saco, Barra">
+                </div>
+            </div>
+            <div class="fila-campos">
+                <div class="campo">
+                    <label for="matPrecio">Precio Base (USD):</label>
+                    <input type="number" id="matPrecio" class="control-formulario" min="0.01" step="0.01"
+                        placeholder="0.00">
+                </div>
+                <div class="campo">
+                    <label for="matPeso">Peso en Kg (opcional):</label>
+                    <input type="number" id="matPeso" class="control-formulario" min="0" step="0.1" placeholder="0.0">
+                </div>
+            </div>
+            <div class="formulario__acciones sv-mt-md sv-flex-end sv-gap-sm">
+                <button type="button" class="boton boton--secundario" onclick="cerrarModalMaterial()">Cancelar</button>
+                <button type="button" class="boton boton--primario" onclick="guardarMaterialDesdeModal()">Guardar
+                    Material</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL DE CONFIRMACIÓN PROPIO (ACCESIBLE SIN ALERT/CONFIRM)   -->
+    <!-- ============================================================ -->
+    <div id="modalConfirmacion" class="modal-fondo oculto" role="dialog" aria-modal="true"
+        aria-labelledby="modalConfirmacionTitulo">
+        <div class="modal-caja sv-max-w-modal-sm">
+            <h2 id="modalConfirmacionTitulo" class="tarjeta__titulo sv-font-lg">Confirmación Requerida</h2>
+            <p id="modalConfirmacionMensaje" class="tarjeta__descripcion sv-mb-md sv-lh-base">
+                ¿Está seguro de realizar esta acción?
+            </p>
+            <div id="modalConfirmacionAccionesExtra" class="sv-mb-sm oculto">
+                <!-- Opciones secundarias si aplica -->
+            </div>
+            <div class="formulario__acciones sv-flex-end sv-gap-sm">
+                <button type="button" class="boton boton--secundario"
+                    id="btnCancelarModalConfirmacion">Cancelar</button>
+                <button type="button" class="boton boton--primario" id="btnAceptarModalConfirmacion">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL PEDAGÓGICO: ¿CÓMO SE CALCULÓ ESTO?                     -->
+    <!-- ============================================================ -->
+    <div id="modalComoSeCalculo" class="modal-fondo oculto" role="dialog" aria-modal="true">
+        <div class="modal-caja sv-modal-calculo">
+            <div class="sv-flex-between sv-mb-sm">
+                <h2 class="tarjeta__titulo sv-mb-0">¿Cómo se calculó este presupuesto?</h2>
+                <button type="button" class="boton boton--secundario boton--sm" id="btnCerrarModalComoSeCalculo"
+                    aria-label="Cerrar modal">
+                    <span data-icono="cerrar" data-tamano="14"></span>
+                </button>
+            </div>
+            <p class="tarjeta__descripcion">
+                Explicación pedagógica paso a paso con las fórmulas y números reales aplicados para la exposición en
+                clase:
+            </p>
+            <div id="contenedorPasosPedagogicos" class="contenedor-pasos-pedagogicos">
+                <!-- Generado dinámicamente -->
+            </div>
+            <div class="formulario__acciones sv-flex-end sv-mt-md">
+                <button type="button" class="boton boton--primario"
+                    id="btnEntendidoModalComoSeCalculo">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL DE RECHAZO DE COTIZACIÓN (SUPERVISIÓN GOBERNACIÓN)     -->
+    <!-- ============================================================ -->
+    <div id="modalRechazo" class="modal-fondo oculto" role="dialog" aria-modal="true"
+        aria-labelledby="modalRechazoTitulo" data-alias="modalRechazoCotizacion">
+        <div class="modal-caja sv-max-w-modal-md">
+            <h2 id="modalRechazoTitulo" class="tarjeta__titulo sv-font-lg">Motivo del Rechazo</h2>
+            <p class="tarjeta__descripcion">El motivo quedará registrado en la bitácora de auditoría y será visible al
+                solicitante.</p>
+            <div class="campo">
+                <label for="inputMotivoRechazo">Motivo formal del rechazo:</label>
+                <textarea id="inputMotivoRechazo" class="control-formulario" rows="4"
+                    placeholder="Ej: El motivo de rechazo quedará asentado formalmente (mínimo 10 caracteres)."></textarea>
+                <div class="sv-flex-between sv-text-xs sv-text-muted sv-mt-xs">
+                    <span>Mínimo 10 caracteres obligatorios</span>
+                    <span id="contadorCaracteresRechazo">0 / 10</span>
+                </div>
+                <div id="error_motivoRechazo" class="mensaje-error-campo oculto"></div>
+            </div>
+            <div class="formulario__acciones sv-flex-end sv-mt-sm">
+                <button type="button" class="boton boton--secundario" id="btnCancelarRechazo">Cancelar</button>
+                <button type="button" class="boton boton--peligro" id="btnConfirmarRechazo">Confirmar Rechazo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL PARA REGISTRAR PAGO DE CUOTA (CASHEA / FINANCIAMIENTO) -->
+    <!-- ============================================================ -->
+    <div id="modalPagoCuota" class="modal-fondo oculto" role="dialog" aria-modal="true"
+        aria-labelledby="modalPagoCuotaTitulo">
+        <div class="modal-caja sv-max-w-modal-md">
+            <h2 id="modalPagoCuotaTitulo" class="tarjeta__titulo sv-font-lg">Registrar Pago de Cuota</h2>
+            <p id="modalPagoCuotaDetalle" class="tarjeta__descripcion">
+                Ingrese la información del pago efectuado para amortizar la cuota.
+            </p>
+            <input type="hidden" id="pagoFinanciamientoId" value="">
+            <input type="hidden" id="pagoNumeroCuota" value="">
+
+            <div class="campo sv-mb-sm">
+                <label for="pagoMontoInput">Monto a Pagar (USD):</label>
+                <input type="number" id="pagoMontoInput" class="control-formulario" step="0.01" min="0.01" readonly>
+            </div>
+            <div class="campo sv-mb-sm">
+                <label for="pagoMetodoSelect">Método de Pago:</label>
+                <select id="pagoMetodoSelect" class="control-formulario">
+                    <option value="Transferencia">Transferencia Bancaria Nacional</option>
+                    <option value="Pago Móvil">Pago Móvil Interbancario</option>
+                    <option value="Efectivo USD">Efectivo en Divisas</option>
+                    <option value="Punto de Venta">Punto de Venta / Débito</option>
+                </select>
+            </div>
+            <div class="campo sv-mb-sm">
+                <label for="pagoReferenciaInput">Número de Referencia Bancaria / Transferencia:</label>
+                <input type="text" id="pagoReferenciaInput" class="control-formulario" placeholder="Ej: REF-982341-BDV">
+                <div id="error_pagoReferencia" class="mensaje-error-campo oculto"></div>
+            </div>
+            <div class="campo sv-mb-md">
+                <label for="pagoFechaInput">Fecha de Pago:</label>
+                <input type="date" id="pagoFechaInput" class="control-formulario">
+            </div>
+
+            <div class="formulario__acciones sv-flex-end sv-gap-sm">
+                <button type="button" class="boton boton--secundario" id="btnCancelarPagoCuota"
+                    onclick="cerrarModalPagoCuota()">Cancelar</button>
+                <button type="button" class="boton boton--primario" id="btnConfirmarPagoCuota">Confirmar Pago</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL DE EXPEDIENTE INTEGRAL DE USUARIO (GOBERNACIÓN)        -->
+    <!-- ============================================================ -->
+    <div id="modalExpedienteUsuario" class="modal-fondo oculto" role="dialog" aria-modal="true"
+        aria-labelledby="modalExpedienteTitulo">
+        <div class="modal-caja sv-max-w-modal-lg">
+            <div class="sv-flex-between sv-items-center sv-mb-md">
+                <div>
+                    <h2 id="modalExpedienteTitulo" class="tarjeta__titulo sv-font-lg sv-mb-0">Expediente de Usuario</h2>
+                    <span class="tarjeta__descripcion sv-mb-0" id="modalExpedienteSubtitulo">Ficha institucional y financiera</span>
+                </div>
+                <button type="button" class="boton-cerrar-modal" onclick="cerrarModalExpedienteUsuario()" aria-label="Cerrar modal">✕</button>
+            </div>
+
+            <!-- Resumen superior del expediente -->
+            <div id="modalExpedienteFicha" class="sv-mb-md">
+                <!-- Dinámico -->
+            </div>
+
+            <!-- Pestañas internas del expediente -->
+            <div class="sv-tabs-expediente sv-mb-sm">
+                <button type="button" class="btn-tab-expediente activa" id="btnTabExpBalance" onclick="cambiarTabExpediente('balance')">Balance y Cupo</button>
+                <button type="button" class="btn-tab-expediente" id="btnTabExpCotizaciones" onclick="cambiarTabExpediente('cotizaciones')">Cotizaciones</button>
+                <button type="button" class="btn-tab-expediente" id="btnTabExpPlanes" onclick="cambiarTabExpediente('planes')">Planes y Cuotas</button>
+                <button type="button" class="btn-tab-expediente" id="btnTabExpMovimientos" onclick="cambiarTabExpediente('movimientos')">Libro Mayor de Pagos</button>
+            </div>
+
+            <!-- Contenidos de las pestañas -->
+            <div id="tabExpedienteBalance" class="tab-expediente-contenido">
+                <div id="contenidoExpedienteBalance"></div>
+            </div>
+            <div id="tabExpedienteCotizaciones" class="tab-expediente-contenido oculto">
+                <div class="tabla-responsive sv-max-h-300">
+                    <table class="tabla tabla--compacta">
+                        <thead>
+                            <tr>
+                                <th>Correlativo</th>
+                                <th>Obra</th>
+                                <th>Fecha</th>
+                                <th>Monto</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoTablaExpedienteCotizaciones"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="tabExpedientePlanes" class="tab-expediente-contenido oculto">
+                <div class="tabla-responsive sv-max-h-300">
+                    <table class="tabla tabla--compacta">
+                        <thead>
+                            <tr>
+                                <th>Plan</th>
+                                <th>Cotización</th>
+                                <th>Total Financiado</th>
+                                <th>Saldo Pendiente</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoTablaExpedientePlanes"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="tabExpedienteMovimientos" class="tab-expediente-contenido oculto">
+                <div class="tabla-responsive sv-max-h-300">
+                    <table class="tabla tabla--compacta">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Referencia</th>
+                                <th>Método</th>
+                                <th>Monto</th>
+                                <th>Recibo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoTablaExpedienteMovimientos"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="formulario__acciones sv-flex-between sv-items-center sv-mt-md">
+                <div id="accionesCuentaUsuario">
+                    <!-- Botón activar/desactivar dinámico -->
+                </div>
+                <div class="sv-flex-center sv-gap-sm">
+                    <button type="button" class="boton boton--secundario" onclick="imprimirExpedienteUsuario()">
+                        <span data-icono="imprimir" data-tamano="14"></span>
+                        <span>Imprimir Ficha</span>
+                    </button>
+                    <button type="button" class="boton boton--primario" onclick="cerrarModalExpedienteUsuario()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL COMPROBANTE OFICIAL DE PAGO (RECIBO DE CAJA)           -->
+    <!-- ============================================================ -->
+    <div id="modalComprobantePago" class="modal-fondo oculto" role="dialog" aria-modal="true"
+        aria-labelledby="modalComprobanteTitulo">
+        <div class="modal-caja sv-max-w-modal-md sv-comprobante-caja">
+            <div class="sv-comprobante-documento" id="documentoComprobantePago">
+                <div class="sv-comprobante-encabezado">
+                    <div class="sv-flex-between sv-items-center">
+                        <div>
+                            <h3 class="sv-font-bold sv-text-uppercase sv-mb-xs">SICOP-VE</h3>
+                            <p class="sv-text-xs sv-text-muted sv-mb-0">Sistema Integrado de Cotización y Presupuesto</p>
+                            <p class="sv-text-xs sv-text-muted sv-mb-0">República Bolivariana de Venezuela</p>
+                        </div>
+                        <div class="sv-text-right">
+                            <span class="sv-badge sv-badge--success" id="comprobanteEstadoBadge">PAGO CONFIRMADO</span>
+                            <div class="sv-font-mono sv-font-bold sv-mt-xs" id="comprobanteNumeroRecibo">REC-000000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sv-comprobante-cuerpo sv-my-md">
+                    <div class="sv-comprobante-fila">
+                        <span class="sv-comprobante-etiqueta">Fecha y Hora de Emisión:</span>
+                        <span class="sv-comprobante-valor" id="comprobanteFechaEmision">-</span>
+                    </div>
+                    <div class="sv-comprobante-fila">
+                        <span class="sv-comprobante-etiqueta">Cliente / Ente Contratante:</span>
+                        <span class="sv-comprobante-valor sv-font-bold" id="comprobanteClienteNombre">-</span>
+                    </div>
+                    <div class="sv-comprobante-fila">
+                        <span class="sv-comprobante-etiqueta">Cotización Asociada:</span>
+                        <span class="sv-comprobante-valor" id="comprobanteCotizacionRef">-</span>
+                    </div>
+                    <div class="sv-comprobante-fila">
+                        <span class="sv-comprobante-etiqueta">Concepto de Amortización:</span>
+                        <span class="sv-comprobante-valor" id="comprobanteConcepto">-</span>
+                    </div>
+                    <div class="sv-comprobante-fila">
+                        <span class="sv-comprobante-etiqueta">Método de Pago:</span>
+                        <span class="sv-comprobante-valor" id="comprobanteMetodoPago">-</span>
+                    </div>
+                    <div class="sv-comprobante-fila">
+                        <span class="sv-comprobante-etiqueta">Número de Referencia Bancaria:</span>
+                        <span class="sv-comprobante-valor sv-font-mono" id="comprobanteReferenciaBancaria">-</span>
+                    </div>
+                    <div class="sv-comprobante-fila">
+                        <span class="sv-comprobante-etiqueta">Tasa Oficial BCV Aplicada:</span>
+                        <span class="sv-comprobante-valor" id="comprobanteTasaBCV">-</span>
+                    </div>
+
+                    <div class="sv-comprobante-totales sv-mt-md sv-p-sm sv-bg-superficie sv-rounded">
+                        <div class="sv-flex-between sv-items-center sv-mb-xs">
+                            <span class="sv-font-bold">Monto Amortizado (USD):</span>
+                            <span class="sv-font-bold sv-font-lg sv-text-accent" id="comprobanteMontoUSD">$0,00</span>
+                        </div>
+                        <div class="sv-flex-between sv-items-center">
+                            <span class="sv-text-muted">Equivalente Oficial (Bs. BCV):</span>
+                            <span class="sv-font-bold sv-text-success" id="comprobanteMontoBs">Bs. 0,00</span>
+                        </div>
+                    </div>
+
+                    <div class="sv-comprobante-pie sv-mt-md sv-text-center sv-text-xs sv-text-muted">
+                        <p class="sv-mb-xs">Este comprobante electrónico certifica la amortización formal de la obligación y queda asentado en el Libro Mayor.</p>
+                        <div class="sv-font-mono" id="comprobanteHashSeguridad">HASH: SICOP-0000000000000000</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formulario__acciones sv-flex-end sv-gap-sm sv-mt-md no-imprimir">
+                <button type="button" class="boton boton--secundario" onclick="cerrarModalComprobantePago()">Cerrar</button>
+                <button type="button" class="boton boton--primario" onclick="imprimirComprobantePago()">
+                    <span data-icono="imprimir" data-tamano="14"></span>
+                    <span>Imprimir Recibo</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón Volver Arriba Flotante -->
+    <button type="button" id="btnScrollTop" class="btn-scroll-top oculto" aria-label="Volver arriba">
+        <span data-icono="chevronAbajo" style="transform: rotate(180deg); display: inline-flex;"
+            data-tamano="18"></span>
+    </button>
+
+    <!-- ============================================================ -->
+    <!-- CONTENEDOR DE NOTIFICACIONES FLOTANTES (TOASTS)              -->
+    <!-- ============================================================ -->
+    <div id="contenedorToasts" class="contenedor-toasts" aria-live="polite"></div>
+
+    <!-- Scripts en orden estricto de carga sin módulos ES -->
+    <script src="js/iconos.js"></script>
+    <script src="js/datos.js"></script>
+    <script src="js/logica.js"></script>
+    <script src="js/movimiento.js"></script>
+    <script src="js/interfaz.js"></script>
+    <script src="js/comandos.js"></script>
+    <script src="js/comparador.js"></script>
+    <script src="js/analisis-abc.js"></script>
+    <script src="js/tour.js"></script>
+    <script src="js/adaptador-api.js"></script>
+    <script src="js/modulos-2.0.js"></script>
+</body>
+
+</html>

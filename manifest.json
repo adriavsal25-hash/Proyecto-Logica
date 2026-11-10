@@ -1,0 +1,23 @@
+{
+  "name": "SICOP-VE 2.0 — Plataforma Institucional",
+  "short_name": "SICOP-VE",
+  "description": "Sistema Integrado de Cotización, Control Presupuestario y Financiamiento Institucional",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0F0F0E",
+  "theme_color": "#141412",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "img/logo-negro.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/logo-blanco.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+

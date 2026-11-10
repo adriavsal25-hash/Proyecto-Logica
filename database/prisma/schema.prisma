@@ -1,0 +1,353 @@
+// =========================================================================
+// SICOP-VE 2.0 — SCHEMA PRISMA ORM
+// =========================================================================
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Institucion {
+  id                    Int                     @id @default(autoincrement())
+  codigo                String                  @unique @db.VarChar(20)
+  nombre                String                  @db.VarChar(150)
+  tipo                  String                  @db.VarChar(50)
+  rif                   String                  @unique @db.VarChar(20)
+  direccion             String?
+  estadoVenezolano      String                  @map("estado_venezolano") @db.VarChar(50)
+  telefono              String?                 @db.VarChar(30)
+  emailContacto         String?                 @map("email_contacto") @db.VarChar(100)
+  limitePresupuestario  Decimal                 @default(0.00) @map("limite_presupuestario") @db.Decimal(15, 2)
+  activo                Boolean                 @default(true)
+  creadoEl              DateTime                @default(now()) @map("creado_el")
+  actualizadoEl         DateTime                @updatedAt @map("actualizado_el")
+
+  usuarios              Usuario[]
+  presupuestos          PresupuestoInstitucional[]
+  almacenes             Almacen[]
+  proyectos             ProyectoObra[]
+  cotizaciones          Cotizacion[]
+  financiamientos       Financiamiento[]
+  movimientosPago       MovimientoPago[]
+  documentos            DocumentoInstitucional[]
+  auditorias            AuditoriaEvento[]
+  alertas               AlertaInteligente[]
+
+  @@map("instituciones")
+}
+
+model Usuario {
+  id                Int                     @id @default(autoincrement())
+  institucionId     Int                     @map("institucion_id")
+  usuario           String                  @unique @db.VarChar(50)
+  claveHash         String                  @map("clave_hash") @db.VarChar(255)
+  nombreCompleto    String                  @map("nombre_completo") @db.VarChar(120)
+  email             String                  @unique @db.VarChar(100)
+  cargo             String?                 @db.VarChar(80)
+  rol               String                  @db.VarChar(50)
+  nivel             Int
+  ingresoMensual    Decimal                 @default(0.00) @map("ingreso_mensual") @db.Decimal(15, 2)
+  limiteGasto       Decimal                 @default(0.00) @map("limite_gasto") @db.Decimal(15, 2)
+  activo            Boolean                 @default(true)
+  creadoEl          DateTime                @default(now()) @map("creado_el")
+  ultimoLogin       DateTime?               @map("ultimo_login")
+
+  institucion       Institucion             @relation(fields: [institucionId], references: [id])
+  cotizaciones      Cotizacion[]
+  financiamientos   Financiamiento[]
+  movimientosPago   MovimientoPago[]
+  notificaciones    NotificacionUsuario[]
+
+  @@map("usuarios")
+}
+
+model PresupuestoInstitucional {
+  id                Int          @id @default(autoincrement())
+  institucionId     Int          @map("institucion_id")
+  anoFiscal         Int          @map("ano_fiscal")
+  montoAsignado     Decimal      @default(0.00) @map("monto_asignado") @db.Decimal(15, 2)
+  montoComprometido Decimal      @default(0.00) @map("monto_comprometido") @db.Decimal(15, 2)
+  montoEjecutado    Decimal      @default(0.00) @map("monto_ejecutado") @db.Decimal(15, 2)
+  alertaUmbralPct   Decimal      @default(80.00) @map("alerta_umbral_pct") @db.Decimal(5, 2)
+  estado            String       @default("ABIERTO") @db.VarChar(30)
+  creadoEl          DateTime     @default(now()) @map("creado_el")
+  actualizadoEl     DateTime     @updatedAt @map("actualizado_el")
+
+  institucion       Institucion  @relation(fields: [institucionId], references: [id])
+
+  @@unique([institucionId, anoFiscal])
+  @@map("presupuestos_institucionales")
+}
+
+model ProyectoObra {
+  id                   Int           @id @default(autoincrement())
+  institucionId        Int           @map("institucion_id")
+  codigoProyecto       String        @unique @map("codigo_proyecto") @db.VarChar(30)
+  nombre               String        @db.VarChar(200)
+  descripcion          String?
+  estadoVenezolano     String        @map("estado_venezolano") @db.VarChar(50)
+  municipio            String?       @db.VarChar(80)
+  presupuestoEstimadoUsd Decimal     @default(0.00) @map("presupuesto_estimado_usd") @db.Decimal(15, 2)
+  avanceFisicoPct      Decimal       @default(0.00) @map("avance_fisico_pct") @db.Decimal(5, 2)
+  avanceFinancieroPct  Decimal       @default(0.00) @map("avance_financiero_pct") @db.Decimal(5, 2)
+  fechaInicio          DateTime?     @map("fecha_inicio") @db.Date
+  fechaFinEstimada     DateTime?     @map("fecha_fin_estimada") @db.Date
+  responsableIngeniero String?       @map("responsable_ingeniero") @db.VarChar(120)
+  estado               String        @default("EN_PLANIFICACION") @db.VarChar(30)
+  creadoEl             DateTime      @default(now()) @map("creado_el")
+
+  institucion          Institucion   @relation(fields: [institucionId], references: [id])
+  cotizaciones         Cotizacion[]
+
+  @@map("proyectos_obras")
+}
+
+model Material {
+  id               Int                   @id @default(autoincrement())
+  codigo           String                @unique @db.VarChar(30)
+  nombre           String                @db.VarChar(150)
+  sector           String                @db.VarChar(80)
+  unidad           String                @db.VarChar(30)
+  descripcion      String?
+  precioBase       Decimal               @map("precio_base") @db.Decimal(12, 2)
+  pesoKg           Decimal               @default(1.00) @map("peso_kg") @db.Decimal(10, 3)
+  permiteDecimales Boolean               @default(false) @map("permite_decimales")
+  stockMinimo      Int                   @default(10) @map("stock_minimo")
+  activo           Boolean               @default(true)
+  creadoEl         DateTime              @default(now()) @map("creado_el")
+  actualizadoEl    DateTime              @updatedAt @map("actualizado_el")
+
+  stocks           MaterialAlmacenStock[]
+  cotizacionItems  CotizacionItem[]
+  preciosHistoricos PrecioHistorico[]
+
+  @@map("materiales")
+}
+
+model Almacen {
+  id               Int                   @id @default(autoincrement())
+  institucionId    Int                   @map("institucion_id")
+  codigo           String                @unique @db.VarChar(20)
+  nombre           String                @db.VarChar(100)
+  ubicacion        String
+  estadoVenezolano String                @map("estado_venezolano") @db.VarChar(50)
+  capacidadM2      Decimal               @default(500.00) @map("capacidad_m2") @db.Decimal(10, 2)
+  responsable      String?               @db.VarChar(100)
+  activo           Boolean               @default(true)
+  creadoEl         DateTime              @default(now()) @map("creado_el")
+
+  institucion      Institucion           @relation(fields: [institucionId], references: [id])
+  stocks           MaterialAlmacenStock[]
+
+  @@map("almacenes")
+}
+
+model MaterialAlmacenStock {
+  id             Int       @id @default(autoincrement())
+  almacenId      Int       @map("almacen_id")
+  materialId     Int       @map("material_id")
+  stockActual    Decimal   @default(0.00) @map("stock_actual") @db.Decimal(12, 2)
+  stockReservado Decimal   @default(0.00) @map("stock_reservado") @db.Decimal(12, 2)
+  actualizadoEl  DateTime  @updatedAt @map("actualizado_el")
+
+  almacen        Almacen   @relation(fields: [almacenId], references: [id])
+  material       Material  @relation(fields: [materialId], references: [id])
+
+  @@unique([almacenId, materialId])
+  @@map("material_almacen_stock")
+}
+
+model Cotizacion {
+  id                 Int              @id @default(autoincrement())
+  numero             String           @unique @db.VarChar(30)
+  usuarioId          Int              @map("usuario_id")
+  institucionId      Int              @map("institucion_id")
+  proyectoId         Int?             @map("proyecto_id")
+  nombreObra         String           @map("nombre_obra") @db.VarChar(200)
+  estadoDestino      String           @map("estado_destino") @db.VarChar(50)
+  ciudadProveedora   String           @default("Los Teques") @map("ciudad_proveedora") @db.VarChar(50)
+  subtotalBase       Decimal          @default(0.00) @map("subtotal_base") @db.Decimal(15, 2)
+  fleteTotal         Decimal          @default(0.00) @map("flete_total") @db.Decimal(15, 2)
+  descuentoTotal     Decimal          @default(0.00) @map("descuento_total") @db.Decimal(15, 2)
+  montoNeto          Decimal          @default(0.00) @map("monto_neto") @db.Decimal(15, 2)
+  contingencia       Decimal          @default(0.00) @db.Decimal(15, 2)
+  iva                Decimal          @default(0.00) @db.Decimal(15, 2)
+  totalUsd           Decimal          @default(0.00) @map("total_usd") @db.Decimal(15, 2)
+  totalBs            Decimal          @default(0.00) @map("total_bs") @db.Decimal(15, 2)
+  tasaBcv            Decimal          @default(900.00) @map("tasa_bcv") @db.Decimal(10, 2)
+  estado             String           @default("BORRADOR") @db.VarChar(30)
+  creadoEl           DateTime         @default(now()) @map("creado_el")
+  actualizadoEl      DateTime         @updatedAt @map("actualizado_el")
+
+  usuario            Usuario          @relation(fields: [usuarioId], references: [id])
+  institucion        Institucion      @relation(fields: [institucionId], references: [id])
+  proyecto           ProyectoObra?    @relation(fields: [proyectoId], references: [id])
+  items              CotizacionItem[]
+  financiamiento     Financiamiento?
+
+  @@map("cotizaciones")
+}
+
+model CotizacionItem {
+  id               Int        @id @default(autoincrement())
+  cotizacionId     Int        @map("cotizacion_id")
+  materialId       Int        @map("material_id")
+  cantidad         Decimal    @db.Decimal(12, 2)
+  precioUnitarioUsd Decimal   @map("precio_unitario_usd") @db.Decimal(12, 2)
+  fleteItemUsd     Decimal    @default(0.00) @map("flete_item_usd") @db.Decimal(12, 2)
+  totalItemUsd     Decimal    @map("total_item_usd") @db.Decimal(12, 2)
+
+  cotizacion       Cotizacion @relation(fields: [cotizacionId], references: [id])
+  material         Material   @relation(fields: [materialId], references: [id])
+
+  @@map("cotizacion_items")
+}
+
+model Financiamiento {
+  id                 Int                   @id @default(autoincrement())
+  cotizacionId       Int                   @unique @map("cotizacion_id")
+  usuarioId          Int                   @map("usuario_id")
+  institucionId      Int                   @map("institucion_id")
+  modalidad          String                @db.VarChar(40)
+  montoTotalUsd      Decimal               @map("monto_total_usd") @db.Decimal(15, 2)
+  montoInicialUsd    Decimal               @map("monto_inicial_usd") @db.Decimal(15, 2)
+  saldoRestanteUsd   Decimal               @map("saldo_restante_usd") @db.Decimal(15, 2)
+  totalFinanciadoUsd Decimal               @map("total_financiado_usd") @db.Decimal(15, 2)
+  numeroCuotas       Int                   @map("numero_cuotas")
+  montoCuotaUsd      Decimal               @map("monto_cuota_usd") @db.Decimal(15, 2)
+  cuotasPagadas      Int                   @default(0) @map("cuotas_pagadas")
+  saldoPendienteUsd  Decimal               @map("saldo_pendiente_usd") @db.Decimal(15, 2)
+  totalPagadoUsd     Decimal               @default(0.00) @map("total_pagado_usd") @db.Decimal(15, 2)
+  estado             String                @default("AL_DIA") @db.VarChar(30)
+  fechaEmision       DateTime              @default(now()) @map("fecha_emision")
+
+  cotizacion         Cotizacion            @relation(fields: [cotizacionId], references: [id])
+  usuario            Usuario               @relation(fields: [usuarioId], references: [id])
+  institucion        Institucion           @relation(fields: [institucionId], references: [id])
+  cuotas             CuotaFinanciamiento[]
+  movimientos        MovimientoPago[]
+
+  @@map("financiamientos")
+}
+
+model CuotaFinanciamiento {
+  id               Int            @id @default(autoincrement())
+  financiamientoId Int            @map("financiamiento_id")
+  numeroCuota      Int            @map("numero_cuota")
+  montoUsd         Decimal        @map("monto_usd") @db.Decimal(15, 2)
+  montoBs          Decimal        @map("monto_bs") @db.Decimal(15, 2)
+  tasaBcv          Decimal        @default(900.00) @map("tasa_bcv") @db.Decimal(10, 2)
+  fechaVencimiento DateTime       @map("fecha_vencimiento") @db.Date
+  fechaPago        DateTime?      @map("fecha_pago")
+  estado           String         @default("PENDIENTE") @db.VarChar(30)
+  referenciaPago   String?        @map("referencia_pago") @db.VarChar(60)
+
+  financiamiento   Financiamiento @relation(fields: [financiamientoId], references: [id])
+
+  @@unique([financiamientoId, numeroCuota])
+  @@map("cuotas_financiamiento")
+}
+
+model MovimientoPago {
+  id               Int             @id @default(autoincrement())
+  correlativo      String          @unique @db.VarChar(30)
+  financiamientoId Int             @map("financiamiento_id")
+  usuarioId        Int             @map("usuario_id")
+  institucionId    Int             @map("institucion_id")
+  tipo             String          @db.VarChar(40)
+  montoUsd         Decimal         @map("monto_usd") @db.Decimal(15, 2)
+  montoBs          Decimal         @map("monto_bs") @db.Decimal(15, 2)
+  tasaBcv          Decimal         @default(900.00) @map("tasa_bcv") @db.Decimal(10, 2)
+  referencia       String          @map("referencia_bancaria") @db.VarChar(80)
+  estado           String          @default("REPORTADO") @db.VarChar(30)
+  fechaReporte     DateTime        @default(now()) @map("fecha_reporte")
+  fechaConciliacion DateTime?      @map("fecha_conciliacion")
+
+  financiamiento   Financiamiento  @relation(fields: [financiamientoId], references: [id])
+  usuario          Usuario         @relation(fields: [usuarioId], references: [id])
+  institucion      Institucion     @relation(fields: [institucionId], references: [id])
+
+  @@map("movimientos_pago")
+}
+
+model DocumentoInstitucional {
+  id                 Int         @id @default(autoincrement())
+  institucionId      Int         @map("institucion_id")
+  recursoTipo        String      @map("recurso_tipo") @db.VarChar(40)
+  recursoId          Int         @map("recurso_id")
+  codigoDocumento    String      @unique @map("codigo_documento") @db.VarChar(40)
+  titulo             String      @db.VarChar(180)
+  hashSha256         String      @map("hash_sha256") @db.VarChar(64)
+  codigoVerificacionQr String    @map("codigo_verificacion_qr") @db.VarChar(120)
+  fechaEmision       DateTime    @default(now()) @map("fecha_emision")
+  valido             Boolean     @default(true)
+
+  institucion        Institucion @relation(fields: [institucionId], references: [id])
+
+  @@map("documentos_institucionales")
+}
+
+model AuditoriaEvento {
+  id               BigInt      @id @default(autoincrement())
+  institucionId    Int?        @map("institucion_id")
+  usuarioId        Int?        @map("usuario_id")
+  usuarioNombre    String      @map("usuario_nombre") @db.VarChar(120)
+  modulo           String      @db.VarChar(50)
+  accion           String      @db.VarChar(60)
+  entidad          String      @db.VarChar(50)
+  entidadId        String?     @map("entidad_id") @db.VarChar(50)
+  descripcion      String
+  creadoEl         DateTime    @default(now()) @map("creado_el")
+
+  institucion      Institucion? @relation(fields: [institucionId], references: [id])
+
+  @@map("auditoria_eventos")
+}
+
+model AlertaInteligente {
+  id               Int         @id @default(autoincrement())
+  institucionId    Int         @map("institucion_id")
+  codigoAlerta     String      @map("codigo_alerta") @db.VarChar(50)
+  nivel            String      @db.VarChar(20)
+  titulo           String      @db.VarChar(150)
+  mensaje          String
+  accionRecomendada String?    @map("accion_recomendada")
+  leida            Boolean     @default(false)
+  fechaGeneracion  DateTime    @default(now()) @map("fecha_generacion")
+
+  institucion      Institucion @relation(fields: [institucionId], references: [id])
+
+  @@map("alertas_inteligentes")
+}
+
+model NotificacionUsuario {
+  id            Int      @id @default(autoincrement())
+  usuarioId     Int      @map("usuario_id")
+  tipo          String   @db.VarChar(30)
+  titulo        String   @db.VarChar(150)
+  mensaje       String
+  leida         Boolean  @default(false)
+  fechaEnvio    DateTime @default(now()) @map("fecha_envio")
+
+  usuario       Usuario  @relation(fields: [usuarioId], references: [id])
+
+  @@map("notificaciones_usuario")
+}
+
+model PrecioHistorico {
+  id             Int       @id @default(autoincrement())
+  materialId     Int       @map("material_id")
+  precioAnterior Decimal   @map("precio_anterior") @db.Decimal(12, 2)
+  precioNuevo    Decimal   @map("precio_nuevo") @db.Decimal(12, 2)
+  motivo         String?   @db.VarChar(200)
+  fechaCambio    DateTime  @default(now()) @map("fecha_cambio")
+
+  material       Material  @relation(fields: [materialId], references: [id])
+
+  @@map("precios_historicos")
+}
+
